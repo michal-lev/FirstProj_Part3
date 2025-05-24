@@ -6,6 +6,7 @@ public class Department {
     private Lecturer[] lecturers;
     private int lecturerCount;
 
+
     public Department(String name, int studentCount) {
         setName(name);
         setStudentCount(studentCount);

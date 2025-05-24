@@ -208,6 +208,12 @@ public class Main {
                 case 11:
                     addLecturerToDepartment(college);
                     break;
+                case 12:
+                    break;
+                case 13:
+                    break;
+                case 14:
+                    break;
                 default:
                     System.out.println("Invalid choice");
                     break;

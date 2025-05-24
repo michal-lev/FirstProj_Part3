@@ -1,6 +1,6 @@
 package michal_liora;
 
-public class Committee {
+public class Committee implements Comparable<Committee> {
     private String name;
     private Lecturer chair;
     private Lecturer[] members;
@@ -63,14 +63,24 @@ public class Committee {
     public String membersNamesToString() {
         String membersStr = "[";
         int i = 0;
-        for (; i < (memberCount - 1); i++){
-            membersStr += members[i].getName() + ", " ;
+        for (; i < (memberCount - 1); i++) {
+            membersStr += members[i].getName() + ", ";
         }
-        if(memberCount != 0) {
+        if (memberCount != 0) {
             membersStr += members[i].getName();
         }
         membersStr += "]";
         return membersStr;
     }
 
+    public int getTotalArticleCount(){
+        int numOfArticles = 0;
+        //runs and sums up articleCount
+        return numOfArticles;
+    }
+
+    @Override
+    public int compareTo(Committee other) {
+        return Integer.compare(getTotalArticleCount(), other.getTotalArticleCount());
+    }
 }
