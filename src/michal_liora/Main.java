@@ -43,7 +43,7 @@ public class Main {
         String name;
         boolean nameExists;
         do{
-            name = getNameFromUser(Lecturer.getTitle());
+            name = getNameFromUser(Lecturer.class.getSimpleName());
             nameExists = (college.getLecturerByName(name) != null);
             if(nameExists){
                 printInvalidInputMessage();
