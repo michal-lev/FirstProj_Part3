@@ -23,6 +23,16 @@ public class College {
         this.departmentCount = 0;
     }
 
+    public boolean createCommitteeClone(String committeeName) {
+        Committee committeeToClone = getCommitteeByName(committeeName);
+        if (committeeToClone == null){
+            return false;
+        }
+        Committee newCommittee = new Committee(committeeToClone);
+        addCommittee(newCommittee);
+        return true;
+    }
+
     public boolean checkValidCommitteeChair(Lecturer lecturer){
         String degreeLevel = lecturer.getDegreeLevel();
         Enums.degreeLevel degreeLevelEnum = Enums.degreeLevel.valueOf(degreeLevel);

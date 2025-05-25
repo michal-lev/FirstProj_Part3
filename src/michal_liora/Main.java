@@ -145,7 +145,11 @@ public class Main {
             printInvalidInputMessage();
         }
     }
-
+    public static void createCommitteeClone(College college){
+        String committeeName = getStringFromUser("Enter committee name: ");
+        college.createCommitteeClone(committeeName);
+        //to finish
+    }
     public static void main(String[] args){
         String collegeName = getNameFromUser(College.class.getSimpleName());
         College college = new College(collegeName);
@@ -213,6 +217,7 @@ public class Main {
                 case 13:
                     break;
                 case 14:
+                    createCommitteeClone(college);
                     break;
                 default:
                     System.out.println("Invalid choice");
