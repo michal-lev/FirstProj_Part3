@@ -267,6 +267,7 @@ public class College {
     }
 
     public String lecturerToString(Lecturer lecturer) {
+        // to delete
         Department department = lecturer.getDepartment();
         return "{" +
                 "name=" + lecturer.getName() +
@@ -288,6 +289,7 @@ public class College {
     }
 
     public String committeeToString(Committee committee) {
+        // to delete
         return "{" +
                 "name=" + committee.getName() +
                 ", members=" + committee.membersNamesToString() +

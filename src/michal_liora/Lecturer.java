@@ -1,14 +1,16 @@
 package michal_liora;
 
+import java.util.Arrays;
+
 public class Lecturer {
-    private String name;
-    private String id;
-    private Enums.degreeLevel degreeLevel;
-    private String degreeTitle;
-    private double salary;
-    private Department department;
-    private Committee[] committees;
-    private int committeesCount;
+    protected String name;
+    protected String id;
+    protected Enums.degreeLevel degreeLevel;
+    protected String degreeTitle;
+    protected double salary;
+    protected Department department;
+    protected Committee[] committees;
+    protected int committeesCount;
 
     public Lecturer(String name, String id, String degreeLevel, String degreeTitle, double salary, Department department) {
         setName(name);
@@ -117,5 +119,18 @@ public class Lecturer {
         }
         committees[i] = null;
         setCommitteesCount(committeesCount - 1);
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "name=" + name +
+                ", id=" + id +
+                ", degreeLevel=" + degreeLevel +
+                ", degreeTitle=" + degreeTitle +
+                ", salary=" + salary +
+                ", department=" + ((department != null) ? department.getName() : "(None)") +
+                ", committees=" + committeesNamesToString() +
+                "}";
     }
 }

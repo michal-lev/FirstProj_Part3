@@ -30,4 +30,17 @@ abstract class LecturerWithArticles extends Lecturer implements Comparable<Lectu
     public int compareTo(LecturerWithArticles other) {
         return Integer.compare(getArticleCount(),other.getArticleCount());
     }
+    public String articlesToString(){
+
+        String articlesStr = "[";
+        int i = 0;
+        for (; i < (committeesCount - 1); i++){
+            articlesStr += articles[i] + ", " ;
+        }
+        if(committeesCount != 0) {
+            articlesStr += articles[i];
+        }
+        articlesStr += "]";
+        return articlesStr;
+    }
 }

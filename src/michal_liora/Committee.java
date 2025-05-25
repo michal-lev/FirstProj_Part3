@@ -1,5 +1,7 @@
 package michal_liora;
 
+import java.util.Arrays;
+
 public class Committee implements Comparable<Committee> {
     private String name;
     private Lecturer chair;
@@ -87,6 +89,16 @@ public class Committee implements Comparable<Committee> {
         int numOfArticles = 0;
         //runs and sums up articleCount
         return numOfArticles;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "name=" + name +
+                ", chair=" + chair.getName() +
+                ", members=" + membersNamesToString() +
+                "}";
+
     }
 
     @Override

@@ -14,4 +14,20 @@ public class Professor extends LecturerWithArticles {
     public void setGrantingInstitution(String grantingInstitution) {
         this.grantingInstitution = grantingInstitution;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "name='" + name +
+                ", id='" + id +
+                ", grantingInstitution='" + grantingInstitution +
+                ", degreeLevel=" + degreeLevel +
+                ", degreeTitle='" + degreeTitle +
+                ", salary=" + salary +
+                ", department=" + ((department != null) ? department.getName() : "(None)") +
+                ", committees=" + committeesNamesToString() +
+                ", articles=" + articlesToString() +
+                "}";
+    }
 }
+

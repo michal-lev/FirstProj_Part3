@@ -1,5 +1,7 @@
 package michal_liora;
 
+import java.util.Arrays;
+
 public class Department {
     private String name;
     private int studentCount;
@@ -48,5 +50,26 @@ public class Department {
 
     public int getLecturerCount() {
         return lecturerCount;
+    }
+    public String lecturerNamesToString() {
+        String lecturersStr = "[";
+        int i = 0;
+        for (; i < (lecturerCount - 1); i++) {
+            lecturersStr += lecturers[i].getName() + ", ";
+        }
+        if (lecturerCount != 0) {
+            lecturersStr += lecturers[i].getName();
+        }
+        lecturersStr += "]";
+        return lecturersStr;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "name=" + name +
+                ", studentCount=" + studentCount +
+                ", lecturers=" + lecturerNamesToString() +
+                "}";
     }
 }
