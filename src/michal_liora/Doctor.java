@@ -18,4 +18,12 @@ public class Doctor extends LecturerWithArticles {
                 ", articles=" + articlesToString() +
                 "}";
     }
+
+    @Override
+    public boolean equals(Object toCompare) {
+        if (toCompare == null || getClass() != toCompare.getClass() || !super.equals(toCompare))
+            return false;
+        Doctor thatDoctor = (Doctor) toCompare;
+        return articles.equals(thatDoctor.articles);
+    }
 }

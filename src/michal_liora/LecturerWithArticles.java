@@ -1,8 +1,8 @@
 package michal_liora;
 
 abstract class LecturerWithArticles extends Lecturer implements Comparable<LecturerWithArticles> {
-    private String[] articles;
-    private int articleCount;
+    protected String[] articles;
+    protected int articleCount;
 
     public LecturerWithArticles(String name, String id, String degreeLevel, String degreeTitle, double salary, Department department) {
         super(name, id, degreeLevel, degreeTitle, salary, department);

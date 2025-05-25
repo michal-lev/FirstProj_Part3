@@ -1,6 +1,5 @@
 package michal_liora;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 public class Lecturer {
@@ -136,18 +135,19 @@ public class Lecturer {
     }
 
     @Override
-    public boolean equals(Lecturer toCompare) {
-        //check if double == works
+    public boolean equals(Object toCompare) {
+        //check if can use Double.compare
         //fix deep equals
-        if (toCompare == null)
+        if (toCompare == null || toCompare.getClass() != getClass())
             return false;
-        return Double.compare(salary, toCompare.salary) == 0 &&
-                committeesCount == toCompare.committeesCount &&
-                name.equals(toCompare.name) &&
-                id.equals(toCompare.id) &&
-                degreeLevel.equals(toCompare.degreeLevel) &&
-                degreeTitle.equals(toCompare.degreeTitle) &&
-                department.equals(toCompare.department) &&
-                Objects.deepEquals(committees, toCompare.committees);
+        Lecturer thatLecturer = (Lecturer) toCompare;
+        return  Double.compare(salary, thatLecturer.salary) == 0 &&
+                committeesCount == thatLecturer.committeesCount &&
+                name.equals(thatLecturer.name) &&
+                id.equals(thatLecturer.id) &&
+                degreeLevel.equals(thatLecturer.degreeLevel) &&
+                degreeTitle.equals(thatLecturer.degreeTitle) &&
+                department.equals(thatLecturer.department) &&
+                Objects.deepEquals(committees, thatLecturer.committees);
     }
 }

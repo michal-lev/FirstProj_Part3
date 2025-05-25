@@ -1,6 +1,7 @@
 package michal_liora;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Department {
     private String name;
@@ -71,5 +72,15 @@ public class Department {
                 ", studentCount=" + studentCount +
                 ", lecturers=" + lecturerNamesToString() +
                 "}";
+    }
+
+    @Override
+    public boolean equals(Object toCompare) {
+        if (toCompare == null || getClass() != toCompare.getClass()) return false;
+        Department thatDepartment = (Department) toCompare;
+        return studentCount == thatDepartment.studentCount &&
+                lecturerCount == thatDepartment.lecturerCount &&
+                name.equals(thatDepartment.name) &&
+                Objects.deepEquals(lecturers, thatDepartment.lecturers);
     }
 }

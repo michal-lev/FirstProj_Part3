@@ -29,5 +29,14 @@ public class Professor extends LecturerWithArticles {
                 ", articles=" + articlesToString() +
                 "}";
     }
+
+    @Override
+    public boolean equals(Object toCompare) {
+        if (toCompare == null || getClass() != toCompare.getClass() || !super.equals(toCompare))
+            return false;
+        Professor thatProfessor = (Professor) toCompare;
+        return articles.equals(thatProfessor.articles) &&
+                grantingInstitution.equals(thatProfessor.grantingInstitution);
+    }
 }
 

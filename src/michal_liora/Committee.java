@@ -102,15 +102,15 @@ public class Committee implements Comparable<Committee> {
     }
 
     @Override
-    public boolean equals(Committee toCompare) {
-        //fix
+    public boolean equals(Object toCompare) {
         //fix deep equals
-        if (toCompare == null)
+        if (toCompare == null || toCompare.getClass() != getClass())
             return false;
-        return memberCount == toCompare.memberCount &&
-                name.equals(toCompare.name) &&
-                chair.equals(toCompare.chair) &&
-                Objects.deepEquals(members, toCompare.members);
+        Committee thatCommittee = (Committee) toCompare;
+        return memberCount == thatCommittee.memberCount &&
+                name.equals(thatCommittee.name) &&
+                chair.equals(thatCommittee.chair) &&
+                Objects.deepEquals(members, thatCommittee.members);
     }
 
     @Override
