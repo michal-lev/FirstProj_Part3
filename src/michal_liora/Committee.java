@@ -12,6 +12,16 @@ public class Committee implements Comparable<Committee> {
         setMembers(new Lecturer[1]);
         setMemberCount(0);
     }
+    public Committee(Committee toCopy){
+        setName(toCopy.getName());
+        setChair(toCopy.getChair());
+        Lecturer[] membersCopy = new Lecturer[toCopy.members.length];
+        for(int i = 0; i < toCopy.memberCount; i++){
+            membersCopy[i] = toCopy.members[i];
+        }
+        setMembers(membersCopy);
+        setMemberCount(toCopy.memberCount);
+    }
 
     public void setName(String name) {
         this.name = name;
