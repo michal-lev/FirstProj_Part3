@@ -1,6 +1,7 @@
 package michal_liora;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Lecturer {
     protected String name;
@@ -132,5 +133,21 @@ public class Lecturer {
                 ", department=" + ((department != null) ? department.getName() : "(None)") +
                 ", committees=" + committeesNamesToString() +
                 "}";
+    }
+
+    @Override
+    public boolean equals(Lecturer toCompare) {
+        //check if double == works
+        //fix deep equals
+        if (toCompare == null)
+            return false;
+        return Double.compare(salary, toCompare.salary) == 0 &&
+                committeesCount == toCompare.committeesCount &&
+                name.equals(toCompare.name) &&
+                id.equals(toCompare.id) &&
+                degreeLevel.equals(toCompare.degreeLevel) &&
+                degreeTitle.equals(toCompare.degreeTitle) &&
+                department.equals(toCompare.department) &&
+                Objects.deepEquals(committees, toCompare.committees);
     }
 }

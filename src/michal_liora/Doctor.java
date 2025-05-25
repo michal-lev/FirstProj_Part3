@@ -8,9 +8,9 @@ public class Doctor extends LecturerWithArticles {
     @Override
     public String toString() {
         return "{" +
-                "degreeTitle='" + degreeTitle +
-                ", name='" + name +
-                ", id='" + id +
+                "degreeTitle=" + degreeTitle +
+                ", name=" + name +
+                ", id=" + id +
                 ", degreeLevel=" + degreeLevel +
                 ", salary=" + salary +
                 ", department=" + ((department != null) ? department.getName() : "(None)") +

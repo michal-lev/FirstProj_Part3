@@ -1,6 +1,6 @@
 package michal_liora;
 
-import java.util.Arrays;
+import java.util.Objects;
 
 public class Committee implements Comparable<Committee> {
     private String name;
@@ -99,6 +99,18 @@ public class Committee implements Comparable<Committee> {
                 ", members=" + membersNamesToString() +
                 "}";
 
+    }
+
+    @Override
+    public boolean equals(Committee toCompare) {
+        //fix
+        //fix deep equals
+        if (toCompare == null)
+            return false;
+        return memberCount == toCompare.memberCount &&
+                name.equals(toCompare.name) &&
+                chair.equals(toCompare.chair) &&
+                Objects.deepEquals(members, toCompare.members);
     }
 
     @Override

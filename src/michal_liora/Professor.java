@@ -18,9 +18,9 @@ public class Professor extends LecturerWithArticles {
     @Override
     public String toString() {
         return "{" +
-                "name='" + name +
-                ", id='" + id +
-                ", grantingInstitution='" + grantingInstitution +
+                "name=" + name +
+                ", id=" + id +
+                ", grantingInstitution=" + grantingInstitution +
                 ", degreeLevel=" + degreeLevel +
                 ", degreeTitle='" + degreeTitle +
                 ", salary=" + salary +
