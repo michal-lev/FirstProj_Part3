@@ -150,6 +150,7 @@ public class Main {
         college.createCommitteeClone(committeeName);
         //to finish
     }
+
     public static void main(String[] args){
         String collegeName = getNameFromUser(College.class.getSimpleName());
         College college = new College(collegeName);
@@ -213,6 +214,7 @@ public class Main {
                     addLecturerToDepartment(college);
                     break;
                 case 12:
+                    System.out.println(college.compareHighRankLecturers());
                     break;
                 case 13:
                     break;

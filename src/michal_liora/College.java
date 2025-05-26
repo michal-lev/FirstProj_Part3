@@ -1,5 +1,7 @@
 package michal_liora;
 
+import java.util.Arrays;
+
 public class College {
     private String name;
     private Lecturer[] lecturers;
@@ -311,5 +313,19 @@ public class College {
 
     public String committeesToString(){
         return committeesArrToString(committees,committeeCount);
+    }
+
+    public String compareHighRankLecturers(){
+        // check if can use arrays
+        HighRankLecturer[] highRankLecturers = new HighRankLecturer[lecturerCount];
+        int index = 0;
+        for( int i = 0; i < lecturerCount;i++){
+            if ( lecturers[i] instanceof HighRankLecturer){
+                highRankLecturers[index] = (HighRankLecturer) lecturers[i];
+                index++;
+            }
+        }
+        Arrays.sort(highRankLecturers);
+        return lecturerArrToString(highRankLecturers, index - 1);
     }
 }
