@@ -25,14 +25,13 @@ public class College {
         this.departmentCount = 0;
     }
 
-    public boolean createCommitteeClone(String committeeName) {
+    public void createCommitteeClone(String committeeName) throws CollegeException {
         Committee committeeToClone = getCommitteeByName(committeeName);
         if (committeeToClone == null){
-            return false;
+            throw new NotExistException("Committee does not exist");
         }
         Committee newCommittee = new Committee(committeeToClone);
         addCommittee(newCommittee);
-        return true;
     }
 
     public boolean checkValidCommitteeChair(Lecturer lecturer){
@@ -44,18 +43,24 @@ public class College {
         return false;
     }
 
-    public boolean createLecturer(String name, String id, String degreeLevel, String degreeTitle, double salary, String departmentName){
+    public void createLecturer(String name, String id, String degreeLevel, String degreeTitle, double salary, String departmentName) throws CollegeException{
         Department department = getDepartmentByName(departmentName);
         boolean departmentNameEmpty = departmentName.isEmpty();
         boolean validDepartmentName = (departmentNameEmpty || department != null);
-        if (!validDepartmentName || !checkValidDegreeLevel(degreeLevel) || !checkValidSalary(salary))
-            return false;
+        if (!validDepartmentName){
+            throw new NotExistException("Department does not exist");
+        }
+        if (!checkValidDegreeLevel(degreeLevel)){
+            throw new InvalidUserInputException("Invalid degree level");
+        }
+        if (!checkValidSalary(salary)) {
+            throw new InvalidUserInputException("Invalid salary");
+        }
         Lecturer newLecturer = new Lecturer(name, id, degreeLevel, degreeTitle, salary, department);
         addLecturer(newLecturer);
         if (!departmentNameEmpty) {
             addLecturerToDepartmentInCollege(newLecturer, department);
         }
-        return true;
     }
 
     public boolean createDepartment(String name, int studentCount){
@@ -89,15 +94,20 @@ public class College {
         return false;
     }
 
-    public boolean createCommittee(String name, String chairName){
+    public void createCommittee(String name, String chairName) throws CollegeException{
         Committee existingCommittee = getCommitteeByName(name);
         Lecturer chair = getLecturerByName(chairName);
-        if (existingCommittee != null || chair == null || !checkValidCommitteeChair(chair)){
-            return false;
+        if (existingCommittee != null){
+            throw new NoDuplicatesException(Enums.errorMessage.COMMITTEE_EXISTS.getMessage());
+        }
+        if (chair == null){
+            throw new NotExistException(Enums.errorMessage.LECTURER_NOT_EXIST.getMessage());
+        }
+        if(!checkValidCommitteeChair(chair)){
+            throw new InvalidOperationValueException(Enums.errorMessage.INVALID_CHAIR_DEGREE.getMessage());
         }
         Committee newCommittee = new Committee(name, chair);
         addCommittee(newCommittee);
-        return true;
     }
 
     public Lecturer[] addLecturerToArray(Lecturer[] lecturerArr,int arrCount, Lecturer newLecturer){
@@ -143,11 +153,20 @@ public class College {
         return null;
     }
 
-    public boolean updateCommitteeHead(String committeeName, String chairName){
+    public boolean updateCommitteeHead(String committeeName, String chairName) throws CollegeException {
         Committee committee = getCommitteeByName(committeeName);
         Lecturer chair = getLecturerByName(chairName);
-        if (committee == null || chair == null || !checkValidCommitteeChair(chair) || checkIfLecturerInCommittee(chair,committee)){
-            return false;
+        if (committee == null){
+            throw new NotExistException(Enums.errorMessage.COMMITTEE_NOT_EXIST.getMessage());
+        }
+        if (chair == null){
+            throw new NotExistException(Enums.errorMessage.LECTURER_NOT_EXIST.getMessage());
+        }
+        if (!checkValidCommitteeChair(chair)){
+            throw new InvalidOperationValueException(Enums.errorMessage.INVALID_CHAIR_DEGREE.getMessage());
+        }
+        if (checkIfLecturerInCommittee(chair,committee)){
+            throw new InvalidOperationValueException(Enums.errorMessage.CHAIR_CANT_BE_MEMBER.getMessage());
         }
         committee.setChair(chair);
         return true;
@@ -183,18 +202,26 @@ public class College {
         departments[departmentCount++] = department;
     }
 
-    public boolean addLecturerToCommittee(String lecturerName, String committeeName){
+    public void addLecturerToCommittee(String lecturerName, String committeeName) throws CollegeException {
         Committee committee = getCommitteeByName(committeeName);
         Lecturer lecturer = getLecturerByName(lecturerName);
-        if (committee == null || lecturer == null || checkIfLecturerInCommittee(lecturer,committee) || committee.getChair().getName().equals(lecturer.getName())){
-            return false;
+        if (committee == null){
+            throw new NotExistException(Enums.errorMessage.COMMITTEE_NOT_EXIST.getMessage());
+        }
+        if (lecturer == null){
+            throw new NotExistException(Enums.errorMessage.LECTURER_NOT_EXIST.getMessage());
+        }
+        if (checkIfLecturerInCommittee(lecturer,committee)){
+            throw new NoDuplicatesException(Enums.errorMessage.LECTURER_ALREADY_IN_COMMITTEE.name());
+        }
+        if (committee.getChair().getName().equals(lecturer.getName())){
+            throw new InvalidOperationValueException(Enums.errorMessage.CHAIR_CANT_BE_MEMBER.getMessage());
         }
         int currentMemberCount = committee.getMemberCount();
         Lecturer[] updatedMembers = addLecturerToArray(committee.getMembers(),currentMemberCount, lecturer);
         committee.setMembers(updatedMembers);
         committee.setMemberCount(currentMemberCount + 1);
         updateLecturerNewCommittee(lecturer,committee);
-        return true;
     }
 
     public void updateLecturerNewCommittee(Lecturer lecturer, Committee committee){

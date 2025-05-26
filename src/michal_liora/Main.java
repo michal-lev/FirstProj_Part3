@@ -31,22 +31,18 @@ public class Main {
         return toReturn;
     }
 
-    public static void printInvalidInputMessage(){
-        printMessage("Bad input! Please try again.");
-    }
-
     public static void printMessage(String message){
         System.out.println(message);
     }
 
-    public static void addLecturerToCollege(College college){
+    public static void addLecturerToCollege(College college) throws CollegeException {
         String name;
         boolean nameExists;
         do{
             name = getNameFromUser(Lecturer.class.getSimpleName());
             nameExists = (college.getLecturerByName(name) != null);
             if(nameExists){
-                printInvalidInputMessage();
+                System.out.println("Name already exists");
             }
         }while(nameExists);
         String id = getStringFromUser("Enter ID number: ");
@@ -54,31 +50,22 @@ public class Main {
         String degreeTitle = getStringFromUser("Enter degree Title: ");
         double salary = getDoubleFromUser("Enter Salary: ");
         String departmentName = getStringFromUser("Enter department name (or press Enter to skip): ");
-        boolean success = college.createLecturer(name, id, degreeLevel, degreeTitle, salary, departmentName);
-        if (!success) {
-            printInvalidInputMessage();
-        }
+        college.createLecturer(name, id, degreeLevel, degreeTitle, salary, departmentName);
     }
 
-    public static void addCommitteeToCollege(College college){
+    public static void addCommitteeToCollege(College college) throws CollegeException{
         String committeeName = getNameFromUser(Committee.class.getSimpleName());
         String chairName = getStringFromUser("Enter chair name: ");
-        boolean success = college.createCommittee(committeeName, chairName);
-        if(!success){
-            printInvalidInputMessage();
-        }
+        college.createCommittee(committeeName, chairName);
     }
 
-    public static void addLecturerToCommittee(College college) {
+    public static void addLecturerToCommittee(College college) throws CollegeException{
         String committeeName = getStringFromUser("Enter committee name: ");
         String lecturerName = getStringFromUser("Enter lecturer name: ");
-        boolean success = college.addLecturerToCommittee(lecturerName,committeeName);
-        if (!success) {
-            printInvalidInputMessage();
-        }
+        college.addLecturerToCommittee(lecturerName,committeeName);
     }
 
-    public static void changeCommitteeHead(College college) {
+    public static void changeCommitteeHead(College college) throws CollegeException{
         String committeeName = getNameFromUser(Committee.class.getSimpleName());
         String chairName = getStringFromUser("Enter chair name: ");
         boolean success = college.updateCommitteeHead(committeeName,chairName);
@@ -137,7 +124,7 @@ public class Main {
         System.out.println(college.committeesToString());
     }
 
-    public static void addLecturerToDepartment(College college) {
+    public static void addLecturerToDepartment(College college) throws CollegeException {
         String departmentName = getStringFromUser("Enter department name: ");
         String lecturerName = getStringFromUser("Enter lecturer name: ");
         boolean success = college.addLecturerToDepartment(lecturerName,departmentName);
@@ -145,10 +132,14 @@ public class Main {
             printInvalidInputMessage();
         }
     }
-    public static void createCommitteeClone(College college){
+    public static void createCommitteeClone(College college) throws CollegeException{
         String committeeName = getStringFromUser("Enter committee name: ");
         college.createCommitteeClone(committeeName);
         //to finish
+    }
+
+    public static void menu(int choice){
+
     }
 
     public static void main(String[] args){
@@ -175,57 +166,62 @@ public class Main {
             System.out.print("Enter your choice: ");
             int choice = scan.nextInt();
             scan.nextLine();
-
-            switch (choice) {
-                case 0:
-                    showMenu = false;
-                    break;
-                case 1:
-                    addLecturerToCollege(college);
-                    break;
-                case 2:
-                    addCommitteeToCollege(college);
-                    break;
-                case 3:
-                    addLecturerToCommittee(college);
-                    break;
-                case 4:
-                    changeCommitteeHead(college);
-                    break;
-                case 5:
-                    removeMemberFromCommittee(college);
-                    break;
-                case 6:
-                    addDepartmentToCollege(college);
-                    break;
-                case 7:
-                    showLecturersSalaryAvg(college);
-                    break;
-                case 8:
-                    showDepartmentMembersSalaryAvg(college);
-                    break;
-                case 9:
-                    showDetailsOfAllLecturers(college);
-                    break;
-                case 10:
-                    showDetailsOfAllCommittees(college);
-                    break;
-                case 11:
-                    addLecturerToDepartment(college);
-                    break;
-                case 12:
-                    System.out.println(college.compareHighRankLecturers());
-                    break;
-                case 13:
-                    break;
-                case 14:
-                    createCommitteeClone(college);
-                    break;
-                default:
-                    System.out.println("Invalid choice");
-                    break;
+            try {
+                switch (choice) {
+                    case 0:
+                        showMenu = false;
+                        break;
+                    case 1:
+                        addLecturerToCollege(college);
+                        break;
+                    case 2:
+                        addCommitteeToCollege(college);
+                        break;
+                    case 3:
+                        addLecturerToCommittee(college);
+                        break;
+                    case 4:
+                        changeCommitteeHead(college);
+                        break;
+                    case 5:
+                        removeMemberFromCommittee(college);
+                        break;
+                    case 6:
+                        addDepartmentToCollege(college);
+                        break;
+                    case 7:
+                        showLecturersSalaryAvg(college);
+                        break;
+                    case 8:
+                        showDepartmentMembersSalaryAvg(college);
+                        break;
+                    case 9:
+                        showDetailsOfAllLecturers(college);
+                        break;
+                    case 10:
+                        showDetailsOfAllCommittees(college);
+                        break;
+                    case 11:
+                        addLecturerToDepartment(college);
+                        break;
+                    case 12:
+                        System.out.println(college.compareHighRankLecturers());
+                        break;
+                    case 13:
+                        break;
+                    case 14:
+                        createCommitteeClone(college);
+                        break;
+                    default:
+                        System.out.println("Invalid choice");
+                        break;
+                }
+            }
+            catch (CollegeException e){
+                System.err.println("Error: " + e.getMessage());
             }
         }while (showMenu);
+
         scan.close();
     }
 }
