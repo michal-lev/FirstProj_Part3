@@ -48,13 +48,13 @@ public class College {
         boolean departmentNameEmpty = departmentName.isEmpty();
         boolean validDepartmentName = (departmentNameEmpty || department != null);
         if (!validDepartmentName){
-            throw new NotExistException("Department does not exist");
+            throw new NotExistException(Enums.errorMessage.DEPARTMENT_NOT_EXIST.getMessage());
         }
         if (!checkValidDegreeLevel(degreeLevel)){
-            throw new InvalidUserInputException("Invalid degree level");
+            throw new InvalidUserInputException(Enums.errorMessage.INVALID_DEGREE_LEVEL.getMessage());
         }
         if (!checkValidSalary(salary)) {
-            throw new InvalidUserInputException("Invalid salary");
+            throw new InvalidUserInputException(Enums.errorMessage.INVALID_SALARY.getMessage());
         }
         Lecturer newLecturer = new Lecturer(name, id, degreeLevel, degreeTitle, salary, department);
         addLecturer(newLecturer);
@@ -65,8 +65,7 @@ public class College {
 
     public void createDepartment(String name, int studentCount) throws CollegeException{
         if (!checkValidStudentCount(studentCount))
-            //fix
-            throw new InvalidUserInputException("Student count has to be a positive number");
+            throw new InvalidUserInputException(Enums.errorMessage.INVALID_STUDENT_COUNT.getMessage());
         Department newDepartment = new Department(name,studentCount);
         addDepartment(newDepartment);
     }
@@ -240,8 +239,7 @@ public class College {
             throw new NotExistException(Enums.errorMessage.LECTURER_NOT_EXIST.getMessage());
         }
         if (!checkIfLecturerInCommittee(lecturer,committee)){
-            //fix
-            throw new InvalidOperationValueException("Lecturer not in committee");
+            throw new InvalidOperationValueException(Enums.errorMessage.LECTURER_NOT_IN_COMMITTEE.getMessage());
         }
         committee.removeMember(lecturer);
         lecturer.removeFromCommittee(committee);
@@ -299,7 +297,7 @@ public class College {
             throw new NotExistException(Enums.errorMessage.LECTURER_NOT_EXIST.getMessage());
         }
         if(lecturer.getDepartment() != null){
-            throw new NoDuplicatesException("Lecturer can only have one department");
+            throw new NoDuplicatesException(Enums.errorMessage.LECTURER_HAS_DEPARTMENT.getMessage());
         }
         addLecturerToDepartmentInCollege(lecturer,department);
         lecturer.setDepartment(department);
