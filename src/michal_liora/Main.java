@@ -118,7 +118,6 @@ public class Main {
     public static void createCommitteeClone(College college) throws CollegeException{
         String committeeName = getStringFromUser("Enter committee name: ");
         college.createCommitteeClone(committeeName);
-        //to finish
     }
 
     public static void compareHighRankLecturers(College college) throws CollegeException {

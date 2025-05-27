@@ -350,7 +350,7 @@ public class College {
         }
         if (!(lecturer1 instanceof Doctor && lecturer2 instanceof Doctor)){
             // fix message
-            throw new InvalidOperationValueException("has to be a doctor");
+            throw new InvalidOperationValueException(Enums.errorMessage.NOT_DOCTOR.getMessage());
         }
         int compareResult = ((Doctor) lecturer1).compareTo((Doctor) lecturer2);
         // check if correct value
