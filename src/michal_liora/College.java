@@ -34,15 +34,6 @@ public class College {
         addCommittee(newCommittee);
     }
 
-    public boolean checkValidCommitteeChair(Lecturer lecturer){
-        String degreeLevel = lecturer.getDegreeLevel();
-        Enums.degreeLevel degreeLevelEnum = Enums.degreeLevel.valueOf(degreeLevel);
-        if (!degreeLevel.isEmpty() && degreeLevelEnum == Enums.degreeLevel.DOCTORATE || degreeLevelEnum == Enums.degreeLevel.PROFESSOR){
-            return true;
-        }
-        return false;
-    }
-
     public void createLecturer(String name, String id, String degreeLevel, String degreeTitle, double salary, String departmentName) throws CollegeException{
         Department department = getDepartmentByName(departmentName);
         boolean departmentNameEmpty = departmentName.isEmpty();
@@ -102,7 +93,7 @@ public class College {
         if (chair == null){
             throw new NotExistException(Enums.errorMessage.LECTURER_NOT_EXIST.getMessage());
         }
-        if(!checkValidCommitteeChair(chair)){
+        if(!(chair instanceof Doctor)){
             throw new InvalidOperationValueException(Enums.errorMessage.INVALID_CHAIR_DEGREE.getMessage());
         }
         Committee newCommittee = new Committee(name, chair);
@@ -161,7 +152,7 @@ public class College {
         if (chair == null){
             throw new NotExistException(Enums.errorMessage.LECTURER_NOT_EXIST.getMessage());
         }
-        if (!checkValidCommitteeChair(chair)){
+        if (!(chair instanceof Doctor)){
             throw new InvalidOperationValueException(Enums.errorMessage.INVALID_CHAIR_DEGREE.getMessage());
         }
         if (checkIfLecturerInCommittee(chair,committee)){
