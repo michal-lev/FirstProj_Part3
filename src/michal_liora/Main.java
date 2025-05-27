@@ -113,10 +113,7 @@ public class Main {
     public static void addLecturerToDepartment(College college) throws CollegeException {
         String departmentName = getStringFromUser("Enter department name: ");
         String lecturerName = getStringFromUser("Enter lecturer name: ");
-        boolean success = college.addLecturerToDepartment(lecturerName,departmentName);
-        if (!success) {
-            printInvalidInputMessage();
-        }
+        college.addLecturerToDepartment(lecturerName,departmentName);
     }
     public static void createCommitteeClone(College college) throws CollegeException{
         String committeeName = getStringFromUser("Enter committee name: ");

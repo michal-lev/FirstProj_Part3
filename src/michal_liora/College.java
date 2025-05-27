@@ -292,18 +292,15 @@ public class College {
     public boolean addLecturerToDepartment(String lecturerName, String departmentName) throws CollegeException {
         Department department = getDepartmentByName(departmentName);
         Lecturer lecturer = getLecturerByName(lecturerName);
-        if ((!departmentName.isEmpty() && department == null) || lecturer == null || lecturer.getDepartment() != null){
-            return false;
+        if(department == null){
+            throw new NotExistException(Enums.errorMessage.DEPARTMENT_NOT_EXIST.getMessage());
         }
-//        if(department == null){
-//            throw new NotExistException(Enums.errorMessage.DEPARTMENT_NOT_EXIST.getMessage());
-//        }
-//        if(lecturer == null){
-//            throw new NotExistException(Enums.errorMessage.LECTURER_NOT_EXIST.getMessage());
-//        }
-//        if(lecturer.getDepartment() != null){
-//            throw new NoDuplicatesException("Lecturer can only have one department");
-//        }
+        if(lecturer == null){
+            throw new NotExistException(Enums.errorMessage.LECTURER_NOT_EXIST.getMessage());
+        }
+        if(lecturer.getDepartment() != null){
+            throw new NoDuplicatesException("Lecturer can only have one department");
+        }
         addLecturerToDepartmentInCollege(lecturer,department);
         lecturer.setDepartment(department);
         return true;
