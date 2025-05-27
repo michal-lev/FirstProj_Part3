@@ -86,9 +86,13 @@ public class Committee implements Comparable<Committee> {
     }
 
     public int getTotalArticleCount(){
-        int numOfArticles = 0;
-        //runs and sums up articleCount
-        return numOfArticles;
+        int totalNumArticles = 0;
+        for(int i = 0; i < memberCount; i++){
+            if(members[i] instanceof Doctor){
+                totalNumArticles += ((Doctor)members[i]).getArticleCount();
+            }
+        }
+        return totalNumArticles;
     }
 
     @Override

@@ -120,12 +120,32 @@ public class Main {
         college.createCommitteeClone(committeeName);
     }
 
-    public static void compareHighRankLecturers(College college) throws CollegeException {
+    public static void compareDoctorsAndProfessors(College college) throws CollegeException {
         String lecturerName1 = getStringFromUser("Enter first lecturer name: ");
         String lecturerName2 = getStringFromUser("Enter second lecturer name: ");
 
-        boolean isEqual = college.compareHighRankLecturers(lecturerName1,lecturerName2);;
+        boolean isEqual = college.compareDoctorsAndProfessors(lecturerName1,lecturerName2);;
         printMessage("The Lecturers" + ( isEqual ? "" : "do not") + " have the same number of articles");
+    }
+
+    public static void compareCommittees(College college) throws CollegeException {
+        String committeeName1 = getStringFromUser("Enter first committee name: ");
+        String committeeName2 = getStringFromUser("Enter second committee name: ");
+        int compareChoice = getIntFromUser("Choose a filter:\n  1) By number of members\n  2) By total number of members' articles\n");
+        Enums.CommitteeSortOption chosen;
+        switch (compareChoice){
+            case 1:
+                chosen = Enums.CommitteeSortOption.BY_NUM_MEMBERS;
+                break;
+            case 2:
+                chosen = Enums.CommitteeSortOption.BY_TOTAL_NUM_ARTICLES;
+                break;
+            default:
+                throw new InvalidUserInputException("Not an option.");
+        }
+        college.compareCommittees(committeeName1, committeeName2, chosen);
+
+
     }
 
     public static void main(String[] args){
@@ -191,20 +211,21 @@ public class Main {
                         addLecturerToDepartment(college);
                         break;
                     case 12:
-                        compareHighRankLecturers(college);
+                        compareDoctorsAndProfessors(college);
                         break;
                     case 13:
+                        compareCommittees(college)
                         break;
                     case 14:
                         createCommitteeClone(college);
                         break;
                     default:
-                        System.out.println("Invalid choice");
-                        break;
+                        // make enum and fix in both places
+                        throw new InvalidUserInputException("Not an option.");
                 }
             }
             catch (CollegeException e){
-                System.err.println("Error: " + e.getMessage());
+                System.out.println("Error: " + e.getMessage());
             }
         }while (showMenu);
 

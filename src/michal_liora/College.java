@@ -1,7 +1,5 @@
 package michal_liora;
 
-import java.util.Arrays;
-
 public class College {
     private String name;
     private Lecturer[] lecturers;
@@ -342,7 +340,7 @@ public class College {
         return committeesArrToString(committees,committeeCount);
     }
 
-    public boolean compareHighRankLecturers(String lecturerName1, String lecturerName2) throws CollegeException {
+    public boolean compareDoctorsAndProfessors(String lecturerName1, String lecturerName2) throws CollegeException {
         Lecturer lecturer1 = getLecturerByName(lecturerName1);
         Lecturer lecturer2 = getLecturerByName(lecturerName2);
         if (lecturer1 == null || lecturer2 == null){
@@ -355,5 +353,14 @@ public class College {
         int compareResult = ((Doctor) lecturer1).compareTo((Doctor) lecturer2);
         // check if correct value
         return compareResult == 0;
+    }
+    public boolean compareCommittees(String committeName1, String committeName2, Enums.CommitteeSortOption sortBy) throws CollegeException {
+        Committee committee1 = getCommitteeByName(committeName1);
+        Committee committee2 = getCommitteeByName(committeName2);
+        if (committee1 == null || committee2 == null){
+            throw new NotExistException(Enums.errorMessage.COMMITTEE_NOT_EXIST.getMessage());
+        }
+        // new sortByStuff
+        // return sortByStuff.compare(committee1,committee2);
     }
 }

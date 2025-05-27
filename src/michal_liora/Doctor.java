@@ -65,7 +65,15 @@ public class Doctor extends Lecturer implements Comparable<Doctor> {
 
     @Override
     public int compareTo(Doctor other) {
-        return Integer.compare(getArticleCount(),other.getArticleCount());
+        int thisArticleCount = getArticleCount(), otherArticleCount = other.getArticleCount();
+
+        if (thisArticleCount == otherArticleCount) {
+            return 0;
+        }
+        if (thisArticleCount < otherArticleCount) {
+            return -1;
+        }
+        return 1;
     }
 
 }
