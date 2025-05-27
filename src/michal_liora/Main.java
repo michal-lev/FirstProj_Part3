@@ -121,8 +121,12 @@ public class Main {
         //to finish
     }
 
-    public static void menu(int choice){
+    public static void compareHighRankLecturers(College college){
+        String lecturerName1 = getStringFromUser("Enter first lecturer name: ");
+        String lecturerName2 = getStringFromUser("Enter second lecturer name: ");
 
+        boolean isEqual = college.compareHighRankLecturers(lecturerName1,lecturerName2);;
+        printMessage("The Lecturers" + ( isEqual ? "" : "do not") + " have the same number of articles");
     }
 
     public static void main(String[] args){
@@ -188,7 +192,7 @@ public class Main {
                         addLecturerToDepartment(college);
                         break;
                     case 12:
-                        System.out.println(college.compareHighRankLecturers());
+                        compareHighRankLecturers(college);
                         break;
                     case 13:
                         break;

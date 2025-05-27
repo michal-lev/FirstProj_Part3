@@ -351,7 +351,7 @@ public class College {
         return committeesArrToString(committees,committeeCount);
     }
 
-    public String compareHighRankLecturers(){
+    public String compareHighRankLecturers(Lecturer lecturer1, Lecturer lecturer2){
         // check if can use arrays
         HighRankLecturer[] highRankLecturers = new HighRankLecturer[lecturerCount];
         int index = 0;

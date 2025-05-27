@@ -7,6 +7,7 @@ public class Enums {
         DOCTORATE,
         PROFESSOR
     }
+
     enum errorMessage {
         LECTURER_NOT_EXIST("Lecturer does not exist"),
         COMMITTEE_NOT_EXIST("Committee does not exist"),
