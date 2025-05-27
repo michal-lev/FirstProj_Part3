@@ -352,16 +352,7 @@ public class College {
     }
 
     public String compareHighRankLecturers(Lecturer lecturer1, Lecturer lecturer2){
-        // check if can use arrays
-        HighRankLecturer[] highRankLecturers = new HighRankLecturer[lecturerCount];
-        int index = 0;
-        for( int i = 0; i < lecturerCount;i++){
-            if ( lecturers[i] instanceof HighRankLecturer){
-                highRankLecturers[index] = (HighRankLecturer) lecturers[i];
-                index++;
-            }
-        }
-        Arrays.sort(highRankLecturers);
-        return lecturerArrToString(highRankLecturers, index - 1);
+        // do
+        return "";
     }
 }
