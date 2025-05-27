@@ -121,7 +121,7 @@ public class Main {
         //to finish
     }
 
-    public static void compareHighRankLecturers(College college){
+    public static void compareHighRankLecturers(College college) throws CollegeException {
         String lecturerName1 = getStringFromUser("Enter first lecturer name: ");
         String lecturerName2 = getStringFromUser("Enter second lecturer name: ");
 

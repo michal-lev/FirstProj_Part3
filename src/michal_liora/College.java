@@ -351,8 +351,18 @@ public class College {
         return committeesArrToString(committees,committeeCount);
     }
 
-    public String compareHighRankLecturers(Lecturer lecturer1, Lecturer lecturer2){
-        // do
-        return "";
+    public boolean compareHighRankLecturers(String lecturerName1, String lecturerName2) throws CollegeException {
+        Lecturer lecturer1 = getLecturerByName(lecturerName1);
+        Lecturer lecturer2 = getLecturerByName(lecturerName2);
+        if (lecturer1 == null || lecturer2 == null){
+            throw new NotExistException(Enums.errorMessage.LECTURER_NOT_EXIST.getMessage());
+        }
+        if (!(lecturer1 instanceof Doctor && lecturer2 instanceof Doctor)){
+            // fix message
+            throw new InvalidOperationValueException("has to be a doctor");
+        }
+        int compareResult = ((Doctor) lecturer1).compareTo((Doctor) lecturer2);
+        // check if correct value
+        return compareResult == 0;
     }
 }
