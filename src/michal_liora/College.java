@@ -28,7 +28,7 @@ public class College {
     public void createCommitteeClone(String committeeName) throws CollegeException {
         Committee committeeToClone = getCommitteeByName(committeeName);
         if (committeeToClone == null){
-            throw new NotExistException("Committee does not exist");
+            throw new NotExistException(Enums.errorMessage.COMMITTEE_NOT_EXIST.getMessage());
         }
         Committee newCommittee = new Committee(committeeToClone);
         addCommittee(newCommittee);
@@ -63,12 +63,12 @@ public class College {
         }
     }
 
-    public boolean createDepartment(String name, int studentCount){
+    public void createDepartment(String name, int studentCount) throws CollegeException{
         if (!checkValidStudentCount(studentCount))
-            return false;
+            //fix
+            throw new InvalidUserInputException("Student count has to be a positive number");
         Department newDepartment = new Department(name,studentCount);
         addDepartment(newDepartment);
-        return true;
     }
 
     public static boolean checkValidDegreeLevel(String degreeLevel){
@@ -153,7 +153,7 @@ public class College {
         return null;
     }
 
-    public boolean updateCommitteeHead(String committeeName, String chairName) throws CollegeException {
+    public void updateCommitteeHead(String committeeName, String chairName) throws CollegeException {
         Committee committee = getCommitteeByName(committeeName);
         Lecturer chair = getLecturerByName(chairName);
         if (committee == null){
@@ -169,7 +169,6 @@ public class College {
             throw new InvalidOperationValueException(Enums.errorMessage.CHAIR_CANT_BE_MEMBER.getMessage());
         }
         committee.setChair(chair);
-        return true;
     }
 
 
@@ -231,15 +230,21 @@ public class College {
         lecturer.setCommitteesCount(currentCommitteesCount + 1);
     }
 
-    public boolean removeLecturerFromCommittee(String lecturerName, String committeeName){
+    public void removeLecturerFromCommittee(String lecturerName, String committeeName) throws CollegeException{
         Committee committee = getCommitteeByName(committeeName);
         Lecturer lecturer = getLecturerByName(lecturerName);
-        if (committee == null || lecturer == null || !checkIfLecturerInCommittee(lecturer,committee)){
-            return false;
+        if (committee == null){
+            throw new NotExistException(Enums.errorMessage.COMMITTEE_NOT_EXIST.getMessage());
+        }
+        if (lecturer == null){
+            throw new NotExistException(Enums.errorMessage.LECTURER_NOT_EXIST.getMessage());
+        }
+        if (!checkIfLecturerInCommittee(lecturer,committee)){
+            //fix
+            throw new InvalidOperationValueException("Lecturer not in committee");
         }
         committee.removeMember(lecturer);
         lecturer.removeFromCommittee(committee);
-        return true;
     }
 
     public boolean checkIfLecturerInCommittee(Lecturer lecturer, Committee committee){
@@ -267,10 +272,10 @@ public class College {
         return getSalaryAvg(lecturers, lecturerCount);
     }
 
-    public double getDepartmentMembersSalaryAvg(String departmentName){
+    public double getDepartmentMembersSalaryAvg(String departmentName) throws CollegeException{
         Department department = getDepartmentByName(departmentName);
         if(department == null){
-            return -1;
+            throw new NotExistException(Enums.errorMessage.DEPARTMENT_NOT_EXIST.getMessage());
         }
         Lecturer[] departmentLecturers = department.getLecturers();
         int departmentLecturersCount = department.getLecturerCount();
@@ -284,12 +289,21 @@ public class College {
         department.setLecturerCount(currentLecturerCount + 1);
     }
 
-    public boolean addLecturerToDepartment(String lecturerName, String departmentName){
+    public boolean addLecturerToDepartment(String lecturerName, String departmentName) throws CollegeException {
         Department department = getDepartmentByName(departmentName);
         Lecturer lecturer = getLecturerByName(lecturerName);
         if ((!departmentName.isEmpty() && department == null) || lecturer == null || lecturer.getDepartment() != null){
             return false;
         }
+//        if(department == null){
+//            throw new NotExistException(Enums.errorMessage.DEPARTMENT_NOT_EXIST.getMessage());
+//        }
+//        if(lecturer == null){
+//            throw new NotExistException(Enums.errorMessage.LECTURER_NOT_EXIST.getMessage());
+//        }
+//        if(lecturer.getDepartment() != null){
+//            throw new NoDuplicatesException("Lecturer can only have one department");
+//        }
         addLecturerToDepartmentInCollege(lecturer,department);
         lecturer.setDepartment(department);
         return true;

@@ -68,36 +68,27 @@ public class Main {
     public static void changeCommitteeHead(College college) throws CollegeException{
         String committeeName = getNameFromUser(Committee.class.getSimpleName());
         String chairName = getStringFromUser("Enter chair name: ");
-        boolean success = college.updateCommitteeHead(committeeName,chairName);
-        if(!success){
-            printInvalidInputMessage();
-        }
+        college.updateCommitteeHead(committeeName,chairName);
     }
 
-    public static void removeMemberFromCommittee(College college) {
+    public static void removeMemberFromCommittee(College college) throws CollegeException {
         String committeeName = getStringFromUser("Enter committee name: ");
         String lecturerName = getStringFromUser("Enter lecturer name: ");
-        boolean success = college.removeLecturerFromCommittee(lecturerName,committeeName);
-        if (!success) {
-            printInvalidInputMessage();
-        }
+        college.removeLecturerFromCommittee(lecturerName,committeeName);
     }
 
-    public static void addDepartmentToCollege(College college) {
+    public static void addDepartmentToCollege(College college) throws CollegeException {
         String name;
         boolean nameExists;
         do{
             name = getNameFromUser(Department.class.getSimpleName());
             nameExists = (college.getDepartmentByName(name) != null);
             if(nameExists){
-                printInvalidInputMessage();
+                System.out.println("Name already exists");
             }
         }while(nameExists);
         int studentCount = getIntFromUser("Enter number of students in department: ");
-        boolean success = college.createDepartment(name, studentCount);
-        if (!success) {
-            printInvalidInputMessage();
-        }
+        college.createDepartment(name, studentCount);
     }
 
     public static void showLecturersSalaryAvg(College college) {
@@ -105,15 +96,10 @@ public class Main {
         printMessage("The salary average is : " + salaryAvg);
     }
 
-    public static void showDepartmentMembersSalaryAvg(College college) {
+    public static void showDepartmentMembersSalaryAvg(College college) throws CollegeException {
         String departmentName = getStringFromUser("Enter department Name: ");
         double salaryAvg = college.getDepartmentMembersSalaryAvg(departmentName);
-        if(salaryAvg == -1) {
-            printInvalidInputMessage();
-        }
-        else {
-            printMessage("The salary average is : " + salaryAvg);
-        }
+        printMessage("The salary average is : " + salaryAvg);
     }
 
     public static void showDetailsOfAllLecturers(College college) {
