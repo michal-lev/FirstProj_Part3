@@ -28,7 +28,8 @@ public class Enums {
         INVALID_SALARY("Salary has to be a positive number"),
         INVALID_DEGREE_LEVEL("Invalid degree level"),
         LECTURER_HAS_DEPARTMENT("Lecturer can only have one department"),
-        NOT_DOCTOR("The lecturer has to be at least a doctor");
+        NOT_DOCTOR("The lecturer has to be at least a doctor"),
+        INVALID_CHOICE("That is not an option");
 
         private final String message;
 

@@ -50,7 +50,26 @@ public class Main {
         String degreeTitle = getStringFromUser("Enter degree Title: ");
         double salary = getDoubleFromUser("Enter Salary: ");
         String departmentName = getStringFromUser("Enter department name (or press Enter to skip): ");
-        college.createLecturer(name, id, degreeLevel, degreeTitle, salary, departmentName);
+        String lecturerType = college.createLecturer(name, id, degreeLevel, degreeTitle, salary, departmentName);
+        if (!lecturerType.equals("regular")){
+            int numArticles = getIntFromUser("Enter number of articles: ");
+            String[] articles = getArticles(numArticles);
+            if(lecturerType.equals(Enums.degreeLevel.PROFESSOR.toString())){
+                String profInstitution = getStringFromUser("Enter the professor's granting institution : ");
+                college.createProfessor(name, id, degreeLevel, degreeTitle, salary, departmentName, numArticles, articles, profInstitution);
+            }
+            else{
+                college.createDoctor(name, id, degreeLevel, degreeTitle, salary, departmentName, numArticles, articles);
+            }
+        }
+    }
+
+    public static String[] getArticles(int numArticles){
+        String[] articles = new String[numArticles];
+        for (int i = 0; i < numArticles; i++){
+            articles[i] = getStringFromUser("Article " + i + " : ");
+        }
+        return articles;
     }
 
     public static void addCommitteeToCollege(College college) throws CollegeException{
@@ -139,7 +158,7 @@ public class Main {
                 chosen = Enums.CommitteeSortOption.BY_TOTAL_NUM_ARTICLES;
                 break;
             default:
-                throw new InvalidUserInputException("Not an option.");
+                throw new InvalidUserInputException(Enums.errorMessage.INVALID_CHOICE.getMessage());
         }
         System.out.println(college.compareCommittees(committeeName1, committeeName2, chosen));
     }
@@ -216,8 +235,7 @@ public class Main {
                         createCommitteeClone(college);
                         break;
                     default:
-                        // make enum and fix in both places
-                        throw new InvalidUserInputException("Not an option.");
+                        throw new InvalidUserInputException(Enums.errorMessage.INVALID_CHOICE.getMessage());
                 }
             }
             catch (CollegeException e){

@@ -4,10 +4,10 @@ public class Doctor extends Lecturer implements Comparable<Doctor> {
     // fix everything
     protected String[] articles;
     protected int articleCount;
-    public Doctor(String name, String id, String degreeLevel, String degreeTitle, double salary, Department department) {
+    public Doctor(String name, String id, String degreeLevel, String degreeTitle, double salary, Department department, int articleCount, String[] articles) {
         super(name, id, degreeLevel, degreeTitle, salary, department);
-        setArticles(new String[1]);
-        setArticleCount(0);
+        setArticleCount(articleCount);
+        setArticles(articles);
     }
 
     public void setArticles(String[] articles) {

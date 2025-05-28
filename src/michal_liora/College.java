@@ -1,5 +1,7 @@
 package michal_liora;
 
+import javax.print.Doc;
+
 public class College {
     private String name;
     private Lecturer[] lecturers;
@@ -32,24 +34,42 @@ public class College {
         addCommittee(newCommittee);
     }
 
-    public void createLecturer(String name, String id, String degreeLevel, String degreeTitle, double salary, String departmentName) throws CollegeException{
+    public String createLecturer(String name, String id, String degreeLevel, String degreeTitle, double salary, String departmentName) throws CollegeException{
         Department department = getDepartmentByName(departmentName);
         boolean departmentNameEmpty = departmentName.isEmpty();
         boolean validDepartmentName = (departmentNameEmpty || department != null);
+        String validDegreeLevel = getValidDegreeLevel(degreeLevel); //could throw
+        Lecturer newLecturer;
         if (!validDepartmentName){
             throw new NotExistException(Enums.errorMessage.DEPARTMENT_NOT_EXIST.getMessage());
         }
-        if (!checkValidDegreeLevel(degreeLevel)){
-            throw new InvalidUserInputException(Enums.errorMessage.INVALID_DEGREE_LEVEL.getMessage());
+        checkValidSalary(salary);
+        if(validDegreeLevel.equals(Enums.degreeLevel.PROFESSOR.toString())) {
+            return validDegreeLevel;
+            //create professor
+        }else if(validDegreeLevel.equals(Enums.degreeLevel.DOCTORATE.toString())) {
+            return validDegreeLevel;
+            //create doctor
         }
-        if (!checkValidSalary(salary)) {
-            throw new InvalidUserInputException(Enums.errorMessage.INVALID_SALARY.getMessage());
+        else{
+            newLecturer = new Lecturer(name, id, degreeLevel, degreeTitle, salary, department);
         }
-        Lecturer newLecturer = new Lecturer(name, id, degreeLevel, degreeTitle, salary, department);
+
         addLecturer(newLecturer);
         if (!departmentNameEmpty) {
             addLecturerToDepartmentInCollege(newLecturer, department);
         }
+        return "regular";
+    }
+
+    public void createDoctor(String name, String id, String degreeLevel, String degreeTitle, double salary, Department department, int numArticles , String[] articles){
+        Lecturer newLecturer = new Doctor(name, id, degreeLevel, degreeTitle, salary, department, numArticles,articles);
+        // see how to use original lecturer, put in array...
+    }
+
+    public void createProfessor(String name, String id, String degreeLevel, String degreeTitle, double salary, Department department, int numArticles , String[] articles, String grantingInstitution){
+        Lecturer newLecturer = new Professor(name, id, degreeLevel, degreeTitle, salary, department, numArticles,articles,grantingInstitution);
+        // see how to use original lecturer, put in array...
     }
 
     public void createDepartment(String name, int studentCount) throws CollegeException{
@@ -59,20 +79,19 @@ public class College {
         addDepartment(newDepartment);
     }
 
-    public static boolean checkValidDegreeLevel(String degreeLevel){
+    public static String getValidDegreeLevel(String degreeLevel) throws CollegeException{
         for (Enums.degreeLevel degLvl : Enums.degreeLevel.values()){
             if (degLvl.toString().equalsIgnoreCase(degreeLevel)){
-                return true;
+                return degLvl.toString();
             }
         }
-        return false;
+        throw new InvalidUserInputException(Enums.errorMessage.INVALID_DEGREE_LEVEL.getMessage());
     }
 
-    public static boolean checkValidSalary(double salary){
-        if (salary > 0) {
-            return true;
+    public static void checkValidSalary(double salary) throws InvalidUserInputException {
+        if (salary < 0) {
+            throw new InvalidUserInputException(Enums.errorMessage.INVALID_SALARY.getMessage());
         }
-        return false;
     }
 
     public static boolean checkValidStudentCount(int studentCount){
