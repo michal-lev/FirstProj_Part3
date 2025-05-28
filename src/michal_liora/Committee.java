@@ -73,19 +73,6 @@ public class Committee implements Comparable<Committee> {
         setMemberCount(memberCount - 1);
     }
 
-    public String membersNamesToString() {
-        String membersStr = "[";
-        int i = 0;
-        for (; i < (memberCount - 1); i++) {
-            membersStr += members[i].getName() + ", ";
-        }
-        if (memberCount != 0) {
-            membersStr += members[i].getName();
-        }
-        membersStr += "]";
-        return membersStr;
-    }
-
     public int getTotalArticleCount(){
         int totalNumArticles = 0;
         for(int i = 0; i < memberCount; i++){
@@ -101,17 +88,8 @@ public class Committee implements Comparable<Committee> {
         return "{" +
                 "name=" + name +
                 ", chair=" + chair.getName() +
-                ", members=" + membersNamesToString() +
+                ", members=" + College.lecturerNamesToString(members,memberCount) +
                 "}";
-    }
-
-    public boolean membersEquals(Lecturer[] otherMembers){
-        for (int i = 0; i < memberCount; i++){
-            if (!members[i].equals(otherMembers[i])){
-                return false;
-            }
-        }
-        return true;
     }
 
     @Override
@@ -122,7 +100,7 @@ public class Committee implements Comparable<Committee> {
         return name.equals(otherCommittee.name) &&
                 chair.equals(otherCommittee.chair) &&
                 memberCount == otherCommittee.memberCount &&
-                membersEquals(otherCommittee.members);
+                College.LecturerArrEquals(members,otherCommittee.members, memberCount);
     }
 
     @Override

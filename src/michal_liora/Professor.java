@@ -35,9 +35,8 @@ public class Professor extends Doctor {
     public boolean equals(Object toCompare) {
         if (toCompare == null || getClass() != toCompare.getClass() || !super.equals(toCompare))
             return false;
-        Professor thatProfessor = (Professor) toCompare;
-        return articles.equals(thatProfessor.articles) &&
-                grantingInstitution.equals(thatProfessor.grantingInstitution);
+        Professor otherProfessor = (Professor) toCompare;
+        return grantingInstitution.equals(otherProfessor.grantingInstitution);
     }
 }
 

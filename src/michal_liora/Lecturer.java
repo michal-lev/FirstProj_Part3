@@ -134,20 +134,38 @@ public class Lecturer {
                 "}";
     }
 
+    public int salaryEquals(Double otherSalary){
+
+        if (salary > otherSalary) {
+            return 1;
+        }
+        if (otherSalary > salary) {
+            return -1;
+        }
+        return 0;
+    }
+
+    public boolean committeesArrEquals(Committee[] otherCommittees){
+        for (int i = 0; i < committeesCount; i++){
+            if (!committees[i].equals(otherCommittees[i])){
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public boolean equals(Object toCompare) {
-        //check if can use Double.compare
-        //fix deep equals
         if (toCompare == null || toCompare.getClass() != getClass())
             return false;
-        Lecturer thatLecturer = (Lecturer) toCompare;
-        return  Double.compare(salary, thatLecturer.salary) == 0 &&
-                committeesCount == thatLecturer.committeesCount &&
-                name.equals(thatLecturer.name) &&
-                id.equals(thatLecturer.id) &&
-                degreeLevel.equals(thatLecturer.degreeLevel) &&
-                degreeTitle.equals(thatLecturer.degreeTitle) &&
-                department.equals(thatLecturer.department) &&
-                Objects.deepEquals(committees, thatLecturer.committees);
+        Lecturer otherLecturer = (Lecturer) toCompare;
+        return  salaryEquals(otherLecturer.salary) == 0 &&
+                name.equals(otherLecturer.name) &&
+                id.equals(otherLecturer.id) &&
+                degreeLevel.equals(otherLecturer.degreeLevel) &&
+                degreeTitle.equals(otherLecturer.degreeTitle) &&
+                department.equals(otherLecturer.department) &&
+                committeesCount == otherLecturer.committeesCount &&
+                committeesArrEquals(otherLecturer.committees);
     }
 }

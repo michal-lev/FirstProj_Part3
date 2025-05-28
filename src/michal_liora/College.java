@@ -23,6 +23,29 @@ public class College {
         this.departmentCount = 0;
     }
 
+    public static String lecturerNamesToString(Lecturer[] lecturersArr, int lecturersCount) {
+        String lecturersStr = "[";
+        int i = 0;
+        for (; i < (lecturersCount - 1); i++) {
+            lecturersStr += lecturersArr[i].getName() + ", ";
+        }
+        if (lecturersCount != 0) {
+            lecturersStr += lecturersArr[i].getName();
+        }
+        lecturersStr += "]";
+        return lecturersStr;
+    }
+
+
+    public static boolean LecturerArrEquals(Lecturer[] lecturers1, Lecturer[] lecturers2, int lecturersCount){
+        for (int i = 0; i < lecturersCount; i++){
+            if (!lecturers1[i].equals(lecturers2[i])){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void testCreateCommitteeClone(Committee committee) throws NotExistException {
         if (committee == null){
             throw new NotExistException(Enums.errorMessage.COMMITTEE_NOT_EXIST.getMessage());
@@ -126,7 +149,9 @@ public class College {
         addCommittee(newCommittee);
     }
 
-    public void testCreateNewDepartment(int studentCount) throws InvalidUserInputException{
+    public void testCreateNewDepartment(String name, int studentCount) throws InvalidUserInputException{
+        if (name.isEmpty())
+            throw new InvalidUserInputException(Enums.errorMessage.NAME_EMPTY.getMessage());
         if (!checkValidStudentCount(studentCount))
             throw new InvalidUserInputException(Enums.errorMessage.INVALID_STUDENT_COUNT.getMessage());
     }
@@ -135,7 +160,7 @@ public class College {
         String name = getName(Department.class.getSimpleName());
         int studentCount = Main.getIntFromUser("Enter number of students in department: ");
 
-        testCreateNewDepartment(studentCount);
+        testCreateNewDepartment(name, studentCount);
 
         Department newDepartment = new Department(name,studentCount);
         addDepartment(newDepartment);

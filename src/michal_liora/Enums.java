@@ -29,7 +29,8 @@ public class Enums {
         INVALID_DEGREE_LEVEL("Invalid degree level"),
         LECTURER_HAS_DEPARTMENT("Lecturer can only have one department"),
         NOT_DOCTOR("The lecturer has to be at least a doctor"),
-        INVALID_CHOICE("That is not an option");
+        INVALID_CHOICE("That is not an option"),
+        NAME_EMPTY("Name can not be empty");
 
         private final String message;
 

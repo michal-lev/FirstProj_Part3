@@ -55,25 +55,35 @@ public class Doctor extends Lecturer implements Comparable<Doctor> {
         return articlesStr;
     }
 
+    public boolean articlesEquals(String[] otherArticles){
+        for (int i = 0; i < articleCount; i++){
+            if (!articles[i].equals(otherArticles[i])){
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public boolean equals(Object toCompare) {
         if (toCompare == null || getClass() != toCompare.getClass() || !super.equals(toCompare))
             return false;
-        Doctor thatDoctor = (Doctor) toCompare;
-        return articles.equals(thatDoctor.articles);
+        Doctor otherDoctor = (Doctor) toCompare;
+        return articleCount == otherDoctor.articleCount &&
+                articlesEquals(otherDoctor.articles);
     }
 
     @Override
     public int compareTo(Doctor other) {
         int thisArticleCount = getArticleCount(), otherArticleCount = other.getArticleCount();
 
-        if (thisArticleCount == otherArticleCount) {
-            return 0;
+        if (thisArticleCount > otherArticleCount) {
+            return 1;
         }
-        if (thisArticleCount < otherArticleCount) {
+        if (otherArticleCount > thisArticleCount) {
             return -1;
         }
-        return 1;
+        return 0;
     }
 
 }
