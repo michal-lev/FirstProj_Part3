@@ -8,6 +8,7 @@ public class Main {
     Liora Grinshpul 211666557
     */
     private static final Scanner scan = new Scanner(System.in);
+
     public static String getNameFromUser(String title){
         return getStringFromUser("Enter " + title.toLowerCase() + " name: ");
     }
@@ -33,11 +34,6 @@ public class Main {
 
     public static void printMessage(String message){
         System.out.println(message);
-    }
-
-    public static void createCommitteeClone(College college) throws CollegeException{
-        String committeeName = getStringFromUser("Enter committee name: ");
-        college.createCommitteeClone(committeeName);
     }
 
     public static void main(String[] args){
@@ -109,7 +105,7 @@ public class Main {
                         college.compareCommittees();
                         break;
                     case 14:
-                        createCommitteeClone(college);
+                        college.createCommitteeClone();
                         break;
                     default:
                         throw new InvalidUserInputException(Enums.errorMessage.INVALID_CHOICE.getMessage());

@@ -23,11 +23,15 @@ public class College {
         this.departmentCount = 0;
     }
 
-    public void createCommitteeClone(String committeeName) throws CollegeException {
-        Committee committeeToClone = getCommitteeByName(committeeName);
-        if (committeeToClone == null){
+    public void testCreateCommitteeClone(Committee committee) throws NotExistException {
+        if (committee == null){
             throw new NotExistException(Enums.errorMessage.COMMITTEE_NOT_EXIST.getMessage());
         }
+    }
+    public void createCommitteeClone() throws CollegeException {
+        String committeeName = Main.getStringFromUser("Enter committee name: ");
+        Committee committeeToClone = getCommitteeByName(committeeName);
+        testCreateCommitteeClone(committeeToClone);
         Committee newCommittee = new Committee(committeeToClone);
         addCommittee(newCommittee);
     }
@@ -39,7 +43,7 @@ public class College {
             name = Main.getNameFromUser(className);
             nameExists = (getLecturerByName(name) != null);
             if(nameExists){
-                Main.printMessage("Name already exists");
+                Main.printMessage("Name already exists, try again");
             }
         }while(nameExists);
         return name;
