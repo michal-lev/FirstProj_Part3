@@ -46,24 +46,6 @@ public class Main {
         System.out.println(college.compareDoctorsAndProfessors(lecturerName1,lecturerName2));
     }
 
-    public static void compareCommittees(College college) throws CollegeException {
-        String committeeName1 = getStringFromUser("Enter first committee name: ");
-        String committeeName2 = getStringFromUser("Enter second committee name: ");
-        int compareChoice = getIntFromUser("Choose a filter:\n  1) By number of members\n  2) By total number of members' articles\n");
-        Enums.CommitteeSortOption chosen;
-        switch (compareChoice){
-            case 1:
-                chosen = Enums.CommitteeSortOption.BY_NUM_MEMBERS;
-                break;
-            case 2:
-                chosen = Enums.CommitteeSortOption.BY_TOTAL_NUM_ARTICLES;
-                break;
-            default:
-                throw new InvalidUserInputException(Enums.errorMessage.INVALID_CHOICE.getMessage());
-        }
-        System.out.println(college.compareCommittees(committeeName1, committeeName2, chosen));
-    }
-
     public static void main(String[] args){
         String collegeName = getNameFromUser(College.class.getSimpleName());
         College college = new College(collegeName);
@@ -130,7 +112,7 @@ public class Main {
                         compareDoctorsAndProfessors(college);
                         break;
                     case 13:
-                        compareCommittees(college);
+                        college.compareCommittees();
                         break;
                     case 14:
                         createCommitteeClone(college);

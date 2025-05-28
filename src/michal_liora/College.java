@@ -428,22 +428,38 @@ public class College {
         compareResult = ((Doctor) lecturer1).compareTo((Doctor) lecturer2);
         return getCompareString(compareResult, Lecturer.class.getSimpleName());
     }
-    public String compareCommittees(String committeeName1, String committeeName2, Enums.CommitteeSortOption sortBy) throws CollegeException{
-        Committee committee1 = getCommitteeByName(committeeName1);
-        Committee committee2 = getCommitteeByName(committeeName2);
-        int compareResult;
-        SortCommitteeByNumMembers numMembersComparator = new SortCommitteeByNumMembers();
-        SortCommitteeByTotalNumArticles totalNumArticles = new SortCommitteeByTotalNumArticles();
+
+    public void testCompareCommittees(Committee committee1, Committee committee2) throws NotExistException {
         if (committee1 == null || committee2 == null){
             throw new NotExistException(Enums.errorMessage.COMMITTEE_NOT_EXIST.getMessage());
         }
-        if (sortBy == Enums.CommitteeSortOption.BY_NUM_MEMBERS){
-            compareResult = numMembersComparator.compare(committee1,committee2);
+    }
+
+    public void compareCommittees() throws CollegeException{
+        String committeeName1 = Main.getStringFromUser("Enter first committee name: ");
+        String committeeName2 = Main.getStringFromUser("Enter second committee name: ");
+        Committee committee1 = getCommitteeByName(committeeName1);
+        Committee committee2 = getCommitteeByName(committeeName2);
+
+        testCompareCommittees(committee1,committee2);
+
+        int compareChoice = Main.getIntFromUser("Choose a filter:\n  1) By number of members\n  2) By total number of members' articles\n");
+        int compareResult;
+        SortCommitteeByNumMembers numMembersComparator = new SortCommitteeByNumMembers();
+        SortCommitteeByTotalNumArticles totalNumArticles = new SortCommitteeByTotalNumArticles();
+
+        switch (compareChoice){
+            case 1:
+                compareResult = numMembersComparator.compare(committee1,committee2);
+                break;
+            case 2:
+                compareResult = totalNumArticles.compare(committee1,committee2);
+                break;
+            default:
+                throw new InvalidUserInputException(Enums.errorMessage.INVALID_CHOICE.getMessage());
         }
-        else{
-            compareResult = totalNumArticles.compare(committee1,committee2);// no other option
-        }
-        return getCompareString(compareResult,Committee.class.getSimpleName());
+
+        Main.printMessage(getCompareString(compareResult,Committee.class.getSimpleName()));
     }
 
     public String getCompareString(int compareResult, String className){
