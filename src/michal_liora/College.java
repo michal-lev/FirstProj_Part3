@@ -285,9 +285,7 @@ public class College {
         lecturer.setCommitteesCount(currentCommitteesCount + 1);
     }
 
-    public void removeLecturerFromCommittee(String lecturerName, String committeeName) throws CollegeException{
-        Committee committee = getCommitteeByName(committeeName);
-        Lecturer lecturer = getLecturerByName(lecturerName);
+    public void testRemoveMemberFromCommittee(Committee committee, Lecturer lecturer) throws CollegeException {
         if (committee == null){
             throw new NotExistException(Enums.errorMessage.COMMITTEE_NOT_EXIST.getMessage());
         }
@@ -297,8 +295,19 @@ public class College {
         if (!checkIfLecturerInCommittee(lecturer,committee)){
             throw new InvalidOperationValueException(Enums.errorMessage.LECTURER_NOT_IN_COMMITTEE.getMessage());
         }
-        committee.removeMember(lecturer);
-        lecturer.removeFromCommittee(committee);
+
+    }
+
+    public void removeMemberFromCommittee() throws CollegeException{
+        String committeeName = Main.getStringFromUser("Enter committee name: ");
+        String lecturerName = Main.getStringFromUser("Enter lecturer name: ");
+        Committee committee = getCommitteeByName(committeeName);
+        Lecturer member = getLecturerByName(lecturerName);
+
+        testRemoveMemberFromCommittee(committee,member);
+
+        committee.removeMember(member);
+        member.removeFromCommittee(committee);
     }
 
     public boolean checkIfLecturerInCommittee(Lecturer lecturer, Committee committee){
