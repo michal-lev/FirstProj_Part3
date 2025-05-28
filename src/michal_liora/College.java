@@ -340,27 +340,44 @@ public class College {
         return committeesArrToString(committees,committeeCount);
     }
 
-    public boolean compareDoctorsAndProfessors(String lecturerName1, String lecturerName2) throws CollegeException {
+    public String compareDoctorsAndProfessors(String lecturerName1, String lecturerName2) throws CollegeException {
         Lecturer lecturer1 = getLecturerByName(lecturerName1);
         Lecturer lecturer2 = getLecturerByName(lecturerName2);
+        int compareResult;
         if (lecturer1 == null || lecturer2 == null){
             throw new NotExistException(Enums.errorMessage.LECTURER_NOT_EXIST.getMessage());
         }
         if (!(lecturer1 instanceof Doctor && lecturer2 instanceof Doctor)){
-            // fix message
             throw new InvalidOperationValueException(Enums.errorMessage.NOT_DOCTOR.getMessage());
         }
-        int compareResult = ((Doctor) lecturer1).compareTo((Doctor) lecturer2);
-        // check if correct value
-        return compareResult == 0;
+        compareResult = ((Doctor) lecturer1).compareTo((Doctor) lecturer2);
+        return getCompareString(compareResult, Lecturer.class.getSimpleName());
     }
-    public boolean compareCommittees(String committeName1, String committeName2, Enums.CommitteeSortOption sortBy) throws CollegeException {
-        Committee committee1 = getCommitteeByName(committeName1);
-        Committee committee2 = getCommitteeByName(committeName2);
+    public String compareCommittees(String committeeName1, String committeeName2, Enums.CommitteeSortOption sortBy) throws CollegeException{
+        Committee committee1 = getCommitteeByName(committeeName1);
+        Committee committee2 = getCommitteeByName(committeeName2);
+        int compareResult;
+        SortCommitteeByNumMembers numMembersComparator = new SortCommitteeByNumMembers();
+        SortCommitteeByTotalNumArticles totalNumArticles = new SortCommitteeByTotalNumArticles();
         if (committee1 == null || committee2 == null){
             throw new NotExistException(Enums.errorMessage.COMMITTEE_NOT_EXIST.getMessage());
         }
-        // new sortByStuff
-        // return sortByStuff.compare(committee1,committee2);
+        if (sortBy == Enums.CommitteeSortOption.BY_NUM_MEMBERS){
+            compareResult = numMembersComparator.compare(committee1,committee2);
+        }
+        else{
+            compareResult = totalNumArticles.compare(committee1,committee2);// no other option
+        }
+        return getCompareString(compareResult,Committee.class.getSimpleName());
+    }
+
+    public String getCompareString(int compareResult, String className){
+        if (compareResult == 0){
+            return "Both have the same amount.";
+        }
+        if (compareResult < 0){
+            return "The first " + className + "has more";
+        }
+        return "The second " + className + " has more";
     }
 }

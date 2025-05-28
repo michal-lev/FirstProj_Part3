@@ -123,9 +123,7 @@ public class Main {
     public static void compareDoctorsAndProfessors(College college) throws CollegeException {
         String lecturerName1 = getStringFromUser("Enter first lecturer name: ");
         String lecturerName2 = getStringFromUser("Enter second lecturer name: ");
-
-        boolean isEqual = college.compareDoctorsAndProfessors(lecturerName1,lecturerName2);;
-        printMessage("The Lecturers" + ( isEqual ? "" : "do not") + " have the same number of articles");
+        System.out.println(college.compareDoctorsAndProfessors(lecturerName1,lecturerName2));
     }
 
     public static void compareCommittees(College college) throws CollegeException {
@@ -143,9 +141,7 @@ public class Main {
             default:
                 throw new InvalidUserInputException("Not an option.");
         }
-        college.compareCommittees(committeeName1, committeeName2, chosen);
-
-
+        System.out.println(college.compareCommittees(committeeName1, committeeName2, chosen));
     }
 
     public static void main(String[] args){
@@ -214,7 +210,7 @@ public class Main {
                         compareDoctorsAndProfessors(college);
                         break;
                     case 13:
-                        compareCommittees(college)
+                        compareCommittees(college);
                         break;
                     case 14:
                         createCommitteeClone(college);
