@@ -35,12 +35,6 @@ public class Main {
         System.out.println(message);
     }
 
-    public static void changeCommitteeHead(College college) throws CollegeException{
-        String committeeName = getNameFromUser(Committee.class.getSimpleName());
-        String chairName = getStringFromUser("Enter chair name: ");
-        college.updateCommitteeHead(committeeName,chairName);
-    }
-
     public static void removeMemberFromCommittee(College college) throws CollegeException {
         String committeeName = getStringFromUser("Enter committee name: ");
         String lecturerName = getStringFromUser("Enter lecturer name: ");
@@ -153,7 +147,7 @@ public class Main {
                         college.addLecturerToCommittee();
                         break;
                     case 4:
-                        changeCommitteeHead(college);
+                        college.changeCommitteeHead();
                         break;
                     case 5:
                         removeMemberFromCommittee(college);

@@ -194,22 +194,28 @@ public class College {
         return null;
     }
 
-    public void updateCommitteeHead(String committeeName, String chairName) throws CollegeException {
-        Committee committee = getCommitteeByName(committeeName);
-        Lecturer chair = getLecturerByName(chairName);
+    public void testChangeCommitteeHead(Committee committee, Lecturer newChair) throws CollegeException{
         if (committee == null){
             throw new NotExistException(Enums.errorMessage.COMMITTEE_NOT_EXIST.getMessage());
         }
-        if (chair == null){
+        if (newChair == null){
             throw new NotExistException(Enums.errorMessage.LECTURER_NOT_EXIST.getMessage());
         }
-        if (!(chair instanceof Doctor)){
+        if (!(newChair instanceof Doctor)){
             throw new InvalidOperationValueException(Enums.errorMessage.INVALID_CHAIR_DEGREE.getMessage());
         }
-        if (checkIfLecturerInCommittee(chair,committee)){
+        if (checkIfLecturerInCommittee(newChair,committee)){
             throw new InvalidOperationValueException(Enums.errorMessage.CHAIR_CANT_BE_MEMBER.getMessage());
         }
-        committee.setChair(chair);
+
+    }
+    public void changeCommitteeHead() throws CollegeException {
+        String committeeName = Main.getNameFromUser(Committee.class.getSimpleName());
+        String chairName = Main.getStringFromUser("Enter chair name: ");
+        Committee committee = getCommitteeByName(committeeName);
+        Lecturer newChair = getLecturerByName(chairName);
+        testChangeCommitteeHead(committee,newChair);
+        committee.setChair(newChair);
     }
 
 
