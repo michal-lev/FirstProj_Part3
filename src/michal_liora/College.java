@@ -122,9 +122,17 @@ public class College {
         addCommittee(newCommittee);
     }
 
-    public void createDepartment(String name, int studentCount) throws CollegeException{
+    public void testCreateNewDepartment(int studentCount) throws InvalidUserInputException{
         if (!checkValidStudentCount(studentCount))
             throw new InvalidUserInputException(Enums.errorMessage.INVALID_STUDENT_COUNT.getMessage());
+    }
+
+    public void createNewDepartment() throws CollegeException{
+        String name = getName(Department.class.getSimpleName());
+        int studentCount = Main.getIntFromUser("Enter number of students in department: ");
+
+        testCreateNewDepartment(studentCount);
+
         Department newDepartment = new Department(name,studentCount);
         addDepartment(newDepartment);
     }
@@ -325,24 +333,31 @@ public class College {
         for (int i = 0; i < lecturersArrCount; i++) {
             salarySum += lecturersArr[i].getSalary();
         }
-        // make it .2f :)
         avg = salarySum / lecturersArrCount;
         avg = (double) ((int) (avg * 100)) / 100;
         return avg;
     }
 
-    public double getLecturersSalaryAvg(){
-        return getSalaryAvg(lecturers, lecturerCount);
+    public void getLecturersSalaryAvg() {
+        double salaryAvg = getSalaryAvg(lecturers, lecturerCount);
+        Main.printMessage("The salary average is : " + salaryAvg);
     }
 
-    public double getDepartmentMembersSalaryAvg(String departmentName) throws CollegeException{
-        Department department = getDepartmentByName(departmentName);
+    public void testGetDepartmentMembersSalaryAvg(Department department) throws NotExistException{
         if(department == null){
             throw new NotExistException(Enums.errorMessage.DEPARTMENT_NOT_EXIST.getMessage());
         }
+    }
+    public void getDepartmentMembersSalaryAvg() throws CollegeException {
+        String name = Main.getStringFromUser("Enter department Name: ");
+        Department department = getDepartmentByName(name);
+        testGetDepartmentMembersSalaryAvg(department);
+
         Lecturer[] departmentLecturers = department.getLecturers();
         int departmentLecturersCount = department.getLecturerCount();
-        return getSalaryAvg(departmentLecturers, departmentLecturersCount);
+        double salaryAvg = getSalaryAvg(departmentLecturers, departmentLecturersCount);
+
+        Main.printMessage("The salary average is : " + salaryAvg);
     }
 
     public void addLecturerToDepartmentInCollege(Lecturer lecturer,Department department){

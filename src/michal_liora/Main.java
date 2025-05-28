@@ -35,31 +35,6 @@ public class Main {
         System.out.println(message);
     }
 
-    public static void addDepartmentToCollege(College college) throws CollegeException {
-        String name;
-        boolean nameExists;
-        do{
-            name = getNameFromUser(Department.class.getSimpleName());
-            nameExists = (college.getDepartmentByName(name) != null);
-            if(nameExists){
-                System.out.println("Name already exists");
-            }
-        }while(nameExists);
-        int studentCount = getIntFromUser("Enter number of students in department: ");
-        college.createDepartment(name, studentCount);
-    }
-
-    public static void showLecturersSalaryAvg(College college) {
-        double salaryAvg = college.getLecturersSalaryAvg();
-        printMessage("The salary average is : " + salaryAvg);
-    }
-
-    public static void showDepartmentMembersSalaryAvg(College college) throws CollegeException {
-        String departmentName = getStringFromUser("Enter department Name: ");
-        double salaryAvg = college.getDepartmentMembersSalaryAvg(departmentName);
-        printMessage("The salary average is : " + salaryAvg);
-    }
-
     public static void showDetailsOfAllLecturers(College college) {
         System.out.println(college.lecturersToString());
     }
@@ -147,13 +122,13 @@ public class Main {
                         college.removeMemberFromCommittee();
                         break;
                     case 6:
-                        addDepartmentToCollege(college);
+                        college.createNewDepartment();
                         break;
                     case 7:
-                        showLecturersSalaryAvg(college);
+                        college.getLecturersSalaryAvg();
                         break;
                     case 8:
-                        showDepartmentMembersSalaryAvg(college);
+                        college.getDepartmentMembersSalaryAvg();
                         break;
                     case 9:
                         showDetailsOfAllLecturers(college);
