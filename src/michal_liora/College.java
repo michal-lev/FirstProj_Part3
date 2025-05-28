@@ -367,9 +367,7 @@ public class College {
         department.setLecturerCount(currentLecturerCount + 1);
     }
 
-    public boolean addLecturerToDepartment(String lecturerName, String departmentName) throws CollegeException {
-        Department department = getDepartmentByName(departmentName);
-        Lecturer lecturer = getLecturerByName(lecturerName);
+    public void testAddLecturerToDepartment(Department department, Lecturer lecturer) throws CollegeException {
         if(department == null){
             throw new NotExistException(Enums.errorMessage.DEPARTMENT_NOT_EXIST.getMessage());
         }
@@ -379,9 +377,18 @@ public class College {
         if(lecturer.getDepartment() != null){
             throw new NoDuplicatesException(Enums.errorMessage.LECTURER_HAS_DEPARTMENT.getMessage());
         }
+    }
+
+    public void addLecturerToDepartment() throws CollegeException {
+        String departmentName = Main.getStringFromUser("Enter department name: ");
+        String lecturerName = Main.getStringFromUser("Enter lecturer name: ");
+
+        Department department = getDepartmentByName(departmentName);
+        Lecturer lecturer = getLecturerByName(lecturerName);
+        testAddLecturerToDepartment(department, lecturer); //could throw
+
         addLecturerToDepartmentInCollege(lecturer,department);
         lecturer.setDepartment(department);
-        return true;
     }
 
     public String lecturerArrToString(Lecturer[] lecturerArr, int lecturerArrCount){

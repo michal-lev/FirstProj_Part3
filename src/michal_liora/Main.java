@@ -35,11 +35,6 @@ public class Main {
         System.out.println(message);
     }
 
-    public static void addLecturerToDepartment(College college) throws CollegeException {
-        String departmentName = getStringFromUser("Enter department name: ");
-        String lecturerName = getStringFromUser("Enter lecturer name: ");
-        college.addLecturerToDepartment(lecturerName,departmentName);
-    }
     public static void createCommitteeClone(College college) throws CollegeException{
         String committeeName = getStringFromUser("Enter committee name: ");
         college.createCommitteeClone(committeeName);
@@ -129,7 +124,7 @@ public class Main {
                         college.getDetailsOfAllCommittees();
                         break;
                     case 11:
-                        addLecturerToDepartment(college);
+                        college.addLecturerToDepartment();
                         break;
                     case 12:
                         compareDoctorsAndProfessors(college);
