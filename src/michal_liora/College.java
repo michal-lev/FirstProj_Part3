@@ -384,24 +384,10 @@ public class College {
         return true;
     }
 
-    public String lecturerToString(Lecturer lecturer) {
-        // to delete
-        Department department = lecturer.getDepartment();
-        return "{" +
-                "name=" + lecturer.getName() +
-                ", id=" + lecturer.getId() +
-                ", degreeLevel=" + lecturer.getDegreeLevel().toLowerCase() +
-                ", degreeTitle=" + lecturer.getDegreeTitle() +
-                ", salary=" + lecturer.getSalary() +
-                ", department=" + ((department != null) ? department.getName() : "(None)") +
-                ", committees=" + lecturer.committeesNamesToString() +
-                "}";
-    }
-
     public String lecturerArrToString(Lecturer[] lecturerArr, int lecturerArrCount){
         String toReturn = "";
         for(int i = 0; i < lecturerArrCount; i++){
-            toReturn += lecturerToString(lecturerArr[i]) + "\n";
+            toReturn += lecturerArr[i].toString() + "\n";
         }
         return toReturn;
     }
@@ -423,8 +409,8 @@ public class College {
         return toReturn;
     }
 
-    public String lecturersToString(){
-        return lecturerArrToString(lecturers,lecturerCount);
+    public void getDetailsOfAllLecturers(){
+        Main.printMessage(lecturerArrToString(lecturers,lecturerCount));
     }
 
     public String committeesToString(){

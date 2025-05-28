@@ -35,10 +35,6 @@ public class Main {
         System.out.println(message);
     }
 
-    public static void showDetailsOfAllLecturers(College college) {
-        System.out.println(college.lecturersToString());
-    }
-
     public static void showDetailsOfAllCommittees(College college) {
         System.out.println(college.committeesToString());
     }
@@ -131,7 +127,7 @@ public class Main {
                         college.getDepartmentMembersSalaryAvg();
                         break;
                     case 9:
-                        showDetailsOfAllLecturers(college);
+                        college.getDetailsOfAllLecturers();
                         break;
                     case 10:
                         showDetailsOfAllCommittees(college);

@@ -27,6 +27,7 @@ public class Professor extends Doctor {
                 ", department=" + ((department != null) ? department.getName() : "(None)") +
                 ", committees=" + committeesNamesToString() +
                 ", articles=" + articlesToString() +
+                ", grantingInstitution=" + grantingInstitution +
                 "}";
     }
 
