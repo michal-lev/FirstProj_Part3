@@ -106,7 +106,7 @@ public class Lecturer {
         return committesStr;
     }
 
-    public void removeFromCommittee(Committee committee){
+    public void updateRemovedFromCommittee(Committee committee){
         boolean runOverFlag = false;
         int i = 0;
         for (; i < committeesCount - 1; i++) {

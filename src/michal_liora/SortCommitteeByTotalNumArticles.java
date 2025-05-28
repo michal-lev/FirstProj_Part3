@@ -7,12 +7,12 @@ public class SortCommitteeByTotalNumArticles implements Comparator<Committee> {
     public int compare(Committee committee1, Committee committee2) {
         int numArticles1 = committee1.getTotalArticleCount(), numArticles2 = committee2.getTotalArticleCount();
 
-        if (numArticles1 == numArticles2) {
-            return 0;
+        if (numArticles1 > numArticles2) {
+            return 1;
         }
-        if (numArticles1 < numArticles2) {
+        if (numArticles2 > numArticles1) {
             return -1;
         }
-        return 1;
+        return 0;
     }
 }

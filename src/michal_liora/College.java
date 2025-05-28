@@ -318,8 +318,8 @@ public class College {
 
         testRemoveMemberFromCommittee(committee,member);
 
-        committee.removeMember(member);
-        member.removeFromCommittee(committee);
+        committee.removeMember(member); // remove member from member arr in committee
+        member.updateRemovedFromCommittee(committee); // remove committee from committees arr in lecturer
     }
 
     public boolean checkIfLecturerInCommittee(Lecturer lecturer, Committee committee){

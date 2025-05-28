@@ -14,6 +14,7 @@ public class Committee implements Comparable<Committee> {
         setMembers(new Lecturer[1]);
         setMemberCount(0);
     }
+
     public Committee(Committee toCopy){
         setName("new-" + toCopy.getName());
         setChair(toCopy.getChair());
@@ -102,23 +103,38 @@ public class Committee implements Comparable<Committee> {
                 ", chair=" + chair.getName() +
                 ", members=" + membersNamesToString() +
                 "}";
+    }
 
+    public boolean membersEquals(Lecturer[] otherMembers){
+        for (int i = 0; i < memberCount; i++){
+            if (!members[i].equals(otherMembers[i])){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public boolean equals(Object toCompare) {
-        //fix deep equals
         if (toCompare == null || toCompare.getClass() != getClass())
             return false;
-        Committee thatCommittee = (Committee) toCompare;
-        return memberCount == thatCommittee.memberCount &&
-                name.equals(thatCommittee.name) &&
-                chair.equals(thatCommittee.chair) &&
-                Objects.deepEquals(members, thatCommittee.members);
+        Committee otherCommittee = (Committee) toCompare;
+        return name.equals(otherCommittee.name) &&
+                chair.equals(otherCommittee.chair) &&
+                memberCount == otherCommittee.memberCount &&
+                membersEquals(otherCommittee.members);
     }
 
     @Override
     public int compareTo(Committee other) {
-        return Integer.compare(getTotalArticleCount(), other.getTotalArticleCount());
+        int totalArticleCount1 = getTotalArticleCount(), totalArticleCount2 = other.getTotalArticleCount();
+
+        if (totalArticleCount1 > totalArticleCount2) {
+            return 1;
+        }
+        if (totalArticleCount2 > totalArticleCount1) {
+            return -1;
+        }
+        return 0;
     }
 }
