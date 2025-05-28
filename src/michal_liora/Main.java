@@ -40,12 +40,6 @@ public class Main {
         college.createCommitteeClone(committeeName);
     }
 
-    public static void compareDoctorsAndProfessors(College college) throws CollegeException {
-        String lecturerName1 = getStringFromUser("Enter first lecturer name: ");
-        String lecturerName2 = getStringFromUser("Enter second lecturer name: ");
-        System.out.println(college.compareDoctorsAndProfessors(lecturerName1,lecturerName2));
-    }
-
     public static void main(String[] args){
         String collegeName = getNameFromUser(College.class.getSimpleName());
         College college = new College(collegeName);
@@ -109,7 +103,7 @@ public class Main {
                         college.addLecturerToDepartment();
                         break;
                     case 12:
-                        compareDoctorsAndProfessors(college);
+                        college.compareDoctorsAndProfessors();
                         break;
                     case 13:
                         college.compareCommittees();

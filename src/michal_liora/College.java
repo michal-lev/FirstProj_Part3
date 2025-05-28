@@ -415,18 +415,25 @@ public class College {
         Main.printMessage(committeesArrToString(committees,committeeCount));
     }
 
-    public String compareDoctorsAndProfessors(String lecturerName1, String lecturerName2) throws CollegeException {
-        Lecturer lecturer1 = getLecturerByName(lecturerName1);
-        Lecturer lecturer2 = getLecturerByName(lecturerName2);
-        int compareResult;
+    public void testCompareDoctorsAndProfessors(Lecturer lecturer1, Lecturer lecturer2) throws CollegeException {
         if (lecturer1 == null || lecturer2 == null){
             throw new NotExistException(Enums.errorMessage.LECTURER_NOT_EXIST.getMessage());
         }
         if (!(lecturer1 instanceof Doctor && lecturer2 instanceof Doctor)){
             throw new InvalidOperationValueException(Enums.errorMessage.NOT_DOCTOR.getMessage());
         }
-        compareResult = ((Doctor) lecturer1).compareTo((Doctor) lecturer2);
-        return getCompareString(compareResult, Lecturer.class.getSimpleName());
+    }
+
+    public void compareDoctorsAndProfessors() throws CollegeException {
+        String lecturerName1 = Main.getStringFromUser("Enter first lecturer name: ");
+        String lecturerName2 = Main.getStringFromUser("Enter second lecturer name: ");
+        Lecturer lecturer1 = getLecturerByName(lecturerName1);
+        Lecturer lecturer2 = getLecturerByName(lecturerName2);
+
+        testCompareDoctorsAndProfessors(lecturer1,lecturer2);
+
+        int compareResult = ((Doctor) lecturer1).compareTo((Doctor) lecturer2);
+        Main.printMessage(getCompareString(compareResult, Lecturer.class.getSimpleName()));
     }
 
     public void testCompareCommittees(Committee committee1, Committee committee2) throws NotExistException {
