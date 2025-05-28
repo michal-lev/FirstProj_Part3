@@ -1,7 +1,5 @@
 package michal_liora;
 
-import javax.print.Doc;
-
 public class College {
     private String name;
     private Lecturer[] lecturers;
@@ -34,42 +32,94 @@ public class College {
         addCommittee(newCommittee);
     }
 
-    public String createLecturer(String name, String id, String degreeLevel, String degreeTitle, double salary, String departmentName) throws CollegeException{
+    public String getName(String className){
+        String name;
+        boolean nameExists;
+        do{
+            name = Main.getNameFromUser(className);
+            nameExists = (getLecturerByName(name) != null);
+            if(nameExists){
+                Main.printMessage("Name already exists");
+            }
+        }while(nameExists);
+        return name;
+    }
+
+    public void createNewLecturer() throws CollegeException {
+        String name = getName(Lecturer.class.getSimpleName());
+        String id = Main.getStringFromUser("Enter ID number: ");
+        String degreeLevel = Main.getStringFromUser("Enter degree (Bachelor/Master/Doctorate/Professor): ");
+        String degreeTitle = Main.getStringFromUser("Enter degree Title: ");
+        double salary = Main.getDoubleFromUser("Enter Salary: ");
+        String departmentName = Main.getStringFromUser("Enter department name (or press Enter to skip): ");
         Department department = getDepartmentByName(departmentName);
         boolean departmentNameEmpty = departmentName.isEmpty();
+        String lecturerType = testLecturerDetails(degreeLevel, salary, departmentNameEmpty, department);
+        Lecturer newLecturer;
+        if(lecturerType.equals("regular")){
+            newLecturer = new Lecturer(name, id, degreeLevel, degreeTitle, salary, department);
+        }
+        else{
+            int numArticles = Main.getIntFromUser("Enter number of articles: ");
+            String[] articles = getArticles(numArticles);
+            if(lecturerType.equals(Enums.degreeLevel.PROFESSOR.toString())){
+                String grantingInstitution = Main.getStringFromUser("Enter the professor's granting institution : ");
+                newLecturer = new Professor(name, id, degreeLevel, degreeTitle, salary, department, numArticles,articles,grantingInstitution);
+            }
+            else{
+                newLecturer = new Doctor(name, id, degreeLevel, degreeTitle, salary, department, numArticles,articles);
+            }
+        }
+        addLecturer(newLecturer);
+        if (!departmentNameEmpty) {
+            addLecturerToDepartmentInCollege(newLecturer, department);
+        }
+    }
+
+    public String testLecturerDetails(String degreeLevel, double salary, boolean departmentNameEmpty, Department department) throws CollegeException {
         boolean validDepartmentName = (departmentNameEmpty || department != null);
         String validDegreeLevel = getValidDegreeLevel(degreeLevel); //could throw
-        Lecturer newLecturer;
         if (!validDepartmentName){
             throw new NotExistException(Enums.errorMessage.DEPARTMENT_NOT_EXIST.getMessage());
         }
         checkValidSalary(salary);
         if(validDegreeLevel.equals(Enums.degreeLevel.PROFESSOR.toString())) {
             return validDegreeLevel;
-            //create professor
-        }else if(validDegreeLevel.equals(Enums.degreeLevel.DOCTORATE.toString())) {
+        }
+        if(validDegreeLevel.equals(Enums.degreeLevel.DOCTORATE.toString())) {
             return validDegreeLevel;
-            //create doctor
-        }
-        else{
-            newLecturer = new Lecturer(name, id, degreeLevel, degreeTitle, salary, department);
-        }
-
-        addLecturer(newLecturer);
-        if (!departmentNameEmpty) {
-            addLecturerToDepartmentInCollege(newLecturer, department);
         }
         return "regular";
     }
 
-    public void createDoctor(String name, String id, String degreeLevel, String degreeTitle, double salary, Department department, int numArticles , String[] articles){
-        Lecturer newLecturer = new Doctor(name, id, degreeLevel, degreeTitle, salary, department, numArticles,articles);
-        // see how to use original lecturer, put in array...
+    public String[] getArticles(int numArticles){
+        String[] articles = new String[numArticles];
+        for (int i = 0; i < numArticles; i++){
+            articles[i] = Main.getStringFromUser("Article " + i + " : ");
+        }
+        return articles;
     }
 
-    public void createProfessor(String name, String id, String degreeLevel, String degreeTitle, double salary, Department department, int numArticles , String[] articles, String grantingInstitution){
-        Lecturer newLecturer = new Professor(name, id, degreeLevel, degreeTitle, salary, department, numArticles,articles,grantingInstitution);
-        // see how to use original lecturer, put in array...
+    public void testCommitteeDetails(String name, Lecturer chair) throws CollegeException{
+        Committee existingCommittee = getCommitteeByName(name);
+        if (existingCommittee != null){
+            throw new NoDuplicatesException(Enums.errorMessage.COMMITTEE_EXISTS.getMessage());
+        }
+        if (chair == null){
+            throw new NotExistException(Enums.errorMessage.LECTURER_NOT_EXIST.getMessage());
+        }
+        if(!(chair instanceof Doctor)){
+            throw new InvalidOperationValueException(Enums.errorMessage.INVALID_CHAIR_DEGREE.getMessage());
+        }
+    }
+
+    public void createNewCommittee() throws CollegeException{
+        String name = Main.getNameFromUser(Committee.class.getSimpleName());
+        String chairName = Main.getStringFromUser("Enter chair name: ");
+        Lecturer chair = getLecturerByName(chairName);
+        testCommitteeDetails(name, chair); // might throw
+        Committee newCommittee = new Committee(name, chair);
+        addCommittee(newCommittee);
     }
 
     public void createDepartment(String name, int studentCount) throws CollegeException{
@@ -99,22 +149,6 @@ public class College {
             return true;
         }
         return false;
-    }
-
-    public void createCommittee(String name, String chairName) throws CollegeException{
-        Committee existingCommittee = getCommitteeByName(name);
-        Lecturer chair = getLecturerByName(chairName);
-        if (existingCommittee != null){
-            throw new NoDuplicatesException(Enums.errorMessage.COMMITTEE_EXISTS.getMessage());
-        }
-        if (chair == null){
-            throw new NotExistException(Enums.errorMessage.LECTURER_NOT_EXIST.getMessage());
-        }
-        if(!(chair instanceof Doctor)){
-            throw new InvalidOperationValueException(Enums.errorMessage.INVALID_CHAIR_DEGREE.getMessage());
-        }
-        Committee newCommittee = new Committee(name, chair);
-        addCommittee(newCommittee);
     }
 
     public Lecturer[] addLecturerToArray(Lecturer[] lecturerArr,int arrCount, Lecturer newLecturer){
@@ -208,9 +242,7 @@ public class College {
         departments[departmentCount++] = department;
     }
 
-    public void addLecturerToCommittee(String lecturerName, String committeeName) throws CollegeException {
-        Committee committee = getCommitteeByName(committeeName);
-        Lecturer lecturer = getLecturerByName(lecturerName);
+    public void testAddLecturerToCommittee(Committee committee, Lecturer lecturer) throws CollegeException{
         if (committee == null){
             throw new NotExistException(Enums.errorMessage.COMMITTEE_NOT_EXIST.getMessage());
         }
@@ -223,6 +255,16 @@ public class College {
         if (committee.getChair().getName().equals(lecturer.getName())){
             throw new InvalidOperationValueException(Enums.errorMessage.CHAIR_CANT_BE_MEMBER.getMessage());
         }
+    }
+
+    public void addLecturerToCommittee() throws CollegeException {
+        String committeeName = Main.getStringFromUser("Enter committee name: ");
+        String lecturerName = Main.getStringFromUser("Enter lecturer name: ");
+        Committee committee = getCommitteeByName(committeeName);
+        Lecturer lecturer = getLecturerByName(lecturerName);
+
+        testAddLecturerToCommittee(committee, lecturer);
+
         int currentMemberCount = committee.getMemberCount();
         Lecturer[] updatedMembers = addLecturerToArray(committee.getMembers(),currentMemberCount, lecturer);
         committee.setMembers(updatedMembers);

@@ -35,55 +35,6 @@ public class Main {
         System.out.println(message);
     }
 
-    public static void addLecturerToCollege(College college) throws CollegeException {
-        String name;
-        boolean nameExists;
-        do{
-            name = getNameFromUser(Lecturer.class.getSimpleName());
-            nameExists = (college.getLecturerByName(name) != null);
-            if(nameExists){
-                System.out.println("Name already exists");
-            }
-        }while(nameExists);
-        String id = getStringFromUser("Enter ID number: ");
-        String degreeLevel = getStringFromUser("Enter degree (Bachelor/Master/Doctorate/Professor): ");
-        String degreeTitle = getStringFromUser("Enter degree Title: ");
-        double salary = getDoubleFromUser("Enter Salary: ");
-        String departmentName = getStringFromUser("Enter department name (or press Enter to skip): ");
-        String lecturerType = college.createLecturer(name, id, degreeLevel, degreeTitle, salary, departmentName);
-        if (!lecturerType.equals("regular")){
-            int numArticles = getIntFromUser("Enter number of articles: ");
-            String[] articles = getArticles(numArticles);
-            if(lecturerType.equals(Enums.degreeLevel.PROFESSOR.toString())){
-                String profInstitution = getStringFromUser("Enter the professor's granting institution : ");
-                college.createProfessor(name, id, degreeLevel, degreeTitle, salary, departmentName, numArticles, articles, profInstitution);
-            }
-            else{
-                college.createDoctor(name, id, degreeLevel, degreeTitle, salary, departmentName, numArticles, articles);
-            }
-        }
-    }
-
-    public static String[] getArticles(int numArticles){
-        String[] articles = new String[numArticles];
-        for (int i = 0; i < numArticles; i++){
-            articles[i] = getStringFromUser("Article " + i + " : ");
-        }
-        return articles;
-    }
-
-    public static void addCommitteeToCollege(College college) throws CollegeException{
-        String committeeName = getNameFromUser(Committee.class.getSimpleName());
-        String chairName = getStringFromUser("Enter chair name: ");
-        college.createCommittee(committeeName, chairName);
-    }
-
-    public static void addLecturerToCommittee(College college) throws CollegeException{
-        String committeeName = getStringFromUser("Enter committee name: ");
-        String lecturerName = getStringFromUser("Enter lecturer name: ");
-        college.addLecturerToCommittee(lecturerName,committeeName);
-    }
-
     public static void changeCommitteeHead(College college) throws CollegeException{
         String committeeName = getNameFromUser(Committee.class.getSimpleName());
         String chairName = getStringFromUser("Enter chair name: ");
@@ -193,13 +144,13 @@ public class Main {
                         showMenu = false;
                         break;
                     case 1:
-                        addLecturerToCollege(college);
+                        college.createNewLecturer();
                         break;
                     case 2:
-                        addCommitteeToCollege(college);
+                        college.createNewCommittee();
                         break;
                     case 3:
-                        addLecturerToCommittee(college);
+                        college.addLecturerToCommittee();
                         break;
                     case 4:
                         changeCommitteeHead(college);
