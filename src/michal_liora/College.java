@@ -392,19 +392,10 @@ public class College {
         return toReturn;
     }
 
-    public String committeeToString(Committee committee) {
-        // to delete
-        return "{" +
-                "name=" + committee.getName() +
-                ", members=" + committee.membersNamesToString() +
-                ", chair=" + committee.getChair().getName() +
-                "}";
-    }
-
     public String committeesArrToString(Committee[] committeesArr, int committeesArrCount){
         String toReturn = "";
         for(int i = 0; i < committeesArrCount; i++){
-            toReturn += committeeToString(committeesArr[i]) + "\n";
+            toReturn += committeesArr[i].toString() + "\n";
         }
         return toReturn;
     }
@@ -413,8 +404,8 @@ public class College {
         Main.printMessage(lecturerArrToString(lecturers,lecturerCount));
     }
 
-    public String committeesToString(){
-        return committeesArrToString(committees,committeeCount);
+    public void getDetailsOfAllCommittees(){
+        Main.printMessage(committeesArrToString(committees,committeeCount));
     }
 
     public String compareDoctorsAndProfessors(String lecturerName1, String lecturerName2) throws CollegeException {
