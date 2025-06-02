@@ -45,10 +45,10 @@ public class Doctor extends Lecturer implements Comparable<Doctor> {
     public String articlesToString(){
         String articlesStr = "[";
         int i = 0;
-        for (; i < (committeesCount - 1); i++){
+        for (; i < (articleCount - 1); i++){
             articlesStr += articles[i] + ", " ;
         }
-        if(committeesCount != 0) {
+        if(articleCount != 0) {
             articlesStr += articles[i];
         }
         articlesStr += "]";

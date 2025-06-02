@@ -122,7 +122,7 @@ public class College {
     public String[] getArticles(int numArticles){
         String[] articles = new String[numArticles];
         for (int i = 0; i < numArticles; i++){
-            articles[i] = Main.getStringFromUser("Article " + i + " : ");
+            articles[i] = Main.getStringFromUser("Article " + (i+1) + " : ");
         }
         return articles;
     }
@@ -503,8 +503,8 @@ public class College {
             return "Both have the same amount.";
         }
         if (compareResult < 0){
-            return "The first " + className + "has more";
+            return "The second " + className + "has more";
         }
-        return "The second " + className + " has more";
+        return "The first " + className + " has more";
     }
 }
