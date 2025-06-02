@@ -1,7 +1,7 @@
 package michal_liora;
 
 public class College {
-    private String name;
+    private final String name;
     private Lecturer[] lecturers;
     private Committee[] committees;
     private Department[] departments;
@@ -81,7 +81,7 @@ public class College {
         String departmentName = Main.getStringFromUser("Enter department name (or press Enter to skip): ");
         Department department = getDepartmentByName(departmentName);
         boolean departmentNameEmpty = departmentName.isEmpty();
-        String lecturerType = testLecturerDetails(degreeLevel, salary, departmentNameEmpty, department);
+        String lecturerType = testLecturerDetails(name, id,degreeLevel, degreeTitle, salary, departmentNameEmpty, department);
         Lecturer newLecturer;
         if(lecturerType.equals("regular")){
             newLecturer = new Lecturer(name, id, degreeLevel, degreeTitle, salary, department);
@@ -91,6 +91,9 @@ public class College {
             String[] articles = getArticles(numArticles);
             if(lecturerType.equals(Enums.degreeLevel.PROFESSOR.toString())){
                 String grantingInstitution = Main.getStringFromUser("Enter the professor's granting institution : ");
+                if (grantingInstitution.isEmpty()){
+                    throw new InvalidUserInputException(Enums.errorMessage.LECTURER_DETAIL_EMPTY.getMessage());
+                }
                 newLecturer = new Professor(name, id, degreeLevel, degreeTitle, salary, department, numArticles,articles,grantingInstitution);
             }
             else{
@@ -103,8 +106,11 @@ public class College {
         }
     }
 
-    public String testLecturerDetails(String degreeLevel, double salary, boolean departmentNameEmpty, Department department) throws CollegeException {
+    public String testLecturerDetails(String name, String id, String degreeLevel, String degreeTitle, double salary, boolean departmentNameEmpty, Department department) throws CollegeException {
         boolean validDepartmentName = (departmentNameEmpty || department != null);
+        if(name.isEmpty() || id.isEmpty() || degreeTitle.isEmpty()){
+            throw new InvalidUserInputException(Enums.errorMessage.LECTURER_DETAIL_EMPTY.getMessage());
+        }
         String validDegreeLevel = getValidDegreeLevel(degreeLevel); //could throw
         if (!validDepartmentName){
             throw new NotExistException(Enums.errorMessage.DEPARTMENT_NOT_EXIST.getMessage());
@@ -119,10 +125,13 @@ public class College {
         return "regular";
     }
 
-    public String[] getArticles(int numArticles){
+    public String[] getArticles(int numArticles) throws InvalidUserInputException {
         String[] articles = new String[numArticles];
         for (int i = 0; i < numArticles; i++){
             articles[i] = Main.getStringFromUser("Article " + (i+1) + " : ");
+            if (articles[i].isEmpty()){
+                throw new InvalidUserInputException(Enums.errorMessage.ARTICLE_NAME_EMPTY.getMessage());
+            }
         }
         return articles;
     }
@@ -503,7 +512,7 @@ public class College {
             return "Both have the same amount.";
         }
         if (compareResult < 0){
-            return "The second " + className + "has more";
+            return "The second " + className + " has more";
         }
         return "The first " + className + " has more";
     }
