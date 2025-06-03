@@ -31,10 +31,10 @@ public class Doctor extends Lecturer implements Comparable<Doctor> {
     @Override
     public String toString() {
         return "{" +
-                "degreeTitle=" + degreeTitle +
-                ", name=" + name +
+                "name=" + name +
                 ", id=" + id +
                 ", degreeLevel=" + degreeLevel +
+                ", degreeTitle=" + degreeTitle +
                 ", salary=" + salary +
                 ", department=" + ((department != null) ? department.getName() : "(None)") +
                 ", committees=" + committeesNamesToString() +

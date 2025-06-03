@@ -112,7 +112,7 @@ public class Main {
                 }
             }
             catch (CollegeException e){
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("Error : " + e.getMessage());
             }
         }while (showMenu);
 
