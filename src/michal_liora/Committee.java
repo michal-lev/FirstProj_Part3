@@ -100,7 +100,7 @@ public class Committee implements Comparable<Committee> {
         return name.equals(otherCommittee.name) &&
                 chair.equals(otherCommittee.chair) &&
                 memberCount == otherCommittee.memberCount &&
-                College.LecturerArrEquals(members,otherCommittee.members, memberCount);
+                College.LecturerArrEqualsByName(members,otherCommittee.members, memberCount);
     }
 
     @Override

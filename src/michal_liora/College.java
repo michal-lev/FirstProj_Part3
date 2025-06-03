@@ -37,9 +37,9 @@ public class College {
     }
 
 
-    public static boolean LecturerArrEquals(Lecturer[] lecturers1, Lecturer[] lecturers2, int lecturersCount){
+    public static boolean LecturerArrEqualsByName(Lecturer[] lecturers1, Lecturer[] lecturers2, int lecturersCount){
         for (int i = 0; i < lecturersCount; i++){
-            if (!lecturers1[i].equals(lecturers2[i])){
+            if (!lecturers1[i].getName().equals(lecturers2[i].getName())){
                 return false;
             }
         }

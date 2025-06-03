@@ -66,6 +66,6 @@ public class Department {
         return studentCount == otherDepartment.studentCount &&
                 lecturerCount == otherDepartment.lecturerCount &&
                 name.equals(otherDepartment.name) &&
-                College.LecturerArrEquals(lecturers, otherDepartment.lecturers, lecturerCount);
+                College.LecturerArrEqualsByName(lecturers, otherDepartment.lecturers, lecturerCount);
     }
 }

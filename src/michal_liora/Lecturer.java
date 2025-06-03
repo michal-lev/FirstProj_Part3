@@ -145,9 +145,9 @@ public class Lecturer {
         return 0;
     }
 
-    public boolean committeesArrEquals(Committee[] otherCommittees){
+    public boolean committeesArrEqualsByName(Committee[] otherCommittees){
         for (int i = 0; i < committeesCount; i++){
-            if (!committees[i].equals(otherCommittees[i])){
+            if (!committees[i].getName().equals(otherCommittees[i].getName())){
                 return false;
             }
         }
@@ -164,8 +164,8 @@ public class Lecturer {
                 id.equals(otherLecturer.id) &&
                 degreeLevel.equals(otherLecturer.degreeLevel) &&
                 degreeTitle.equals(otherLecturer.degreeTitle) &&
-                department.equals(otherLecturer.department) &&
+                (department == null ? (otherLecturer.department == null) : department.equals(otherLecturer.department)) &&
                 committeesCount == otherLecturer.committeesCount &&
-                committeesArrEquals(otherLecturer.committees);
+                committeesArrEqualsByName(otherLecturer.committees);
     }
 }
